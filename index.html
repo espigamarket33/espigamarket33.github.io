@@ -1,0 +1,12 @@
+<!doctype html><html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no"><meta name="theme-color" content="#14062b"><title>Juegos Shomav369</title><link rel="stylesheet" href="motor.css">
+<style>.gm{display:flex;align-items:center;gap:14px;text-align:left;color:#fff;text-decoration:none;position:relative;overflow:hidden;transition:transform .1s}.gm:active{transform:scale(.97)}.gm .e{font-size:54px;animation:floaty 2.4s ease-in-out infinite}.gm h2{font-size:22px}.gm p{opacity:.75;font-size:14px}.gm::before{content:"";position:absolute;inset:0;background:linear-gradient(120deg,transparent 40%,rgba(255,255,255,.12),transparent 60%);animation:shine2 3.5s infinite}@keyframes shine2{from{transform:translateX(-100%)}to{transform:translateX(100%)}}
+.stats{display:flex;justify-content:center;gap:8px;margin:14px 0;flex-wrap:wrap}</style></head>
+<body><div class="wrap" style="text-align:center;padding-top:30px">
+<div class="title" style="font-size:44px">SHOMAV369</div><p style="opacity:.85;margin-top:8px">🎮 Juegos de prueba · ¡elige uno!</p>
+<div class="stats" id="st"></div>
+<a class="card gm" href="esquiva.html"><div class="e">🏃</div><div><h2>Esquiva y Junta</h2><p>Corre por 5 zonas, esquiva y junta cupones. Poderes: escudo, imán y x2.</p></div></a>
+<a class="card gm" href="toca.html"><div class="e" style="animation-delay:.3s">🪙</div><div><h2>Toca y Gana</h2><p>Toca, sube tu combo, compra mejoras y atrapa monedas doradas.</p></div></a>
+<a class="card gm" href="cuanto.html"><div class="e" style="animation-delay:.6s">🤔</div><div><h2>¿Cuánto Cuesta?</h2><p>Adivina precios por categoría, con comodines y rachas.</p></div></a>
+<p class="muted" style="margin-top:18px">Versión de prueba · Sin premios en dinero · Sin anuncios · Funciona sin internet</p></div>
+<script>try{const p=JSON.parse(localStorage.getItem('shv2_profile')||'{}');document.getElementById('st').innerHTML='<span class="pill">⭐ Nivel '+(p.lvl||1)+'</span><span class="pill">🔥 Racha '+(p.streak||0)+'</span><span class="pill">💎 '+(p.gems||0)+'</span>'}catch(e){}</script>
+</body></html>
