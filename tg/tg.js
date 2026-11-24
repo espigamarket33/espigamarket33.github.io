@@ -5,8 +5,7 @@
 'use strict';
 var CFG=window.TG_CONFIG={
   canal:'https://t.me/espigamarket33',
-  /* Cuando exista el bot / Mini App oficial, cambia esto por su enlace (ej. https://t.me/TU_BOT/juegos) */
-  urlCompartir:'https://t.me/EspigaMarket33Bot',
+  urlCompartir:'https://t.me/EspigaMarket33Bot/jugar',
   textoCompartir:'🎮 ¡Juega conmigo a los mini juegos de Espiga Market 33! Gratis y sin descargar nada.',
   marcaFondo:'#14062b'
 };
@@ -132,18 +131,112 @@ TG.compartir=function(texto){
 };
 TG.abrirCanal=function(){TG.haptic('light');if(EN_TG){try{W.openTelegramLink(CFG.canal);return}catch(e){}}window.open(CFG.canal,'_blank','noopener')};
 
-/* ---------- anuncios (Adsgram) · DESACTIVADO ----------
-   Marcador para el futuro. No hay ningún SDK de anuncios cargado todavía.
-   Cuando se active Adsgram:
-     1) agregar <script src="https://sad.adsgram.ai/js/sad.min.js"></script> en las páginas de /tg/
-     2) poner aquí el blockId que da Adsgram:  var ADSGRAM_BLOCK_ID = ''; // ← AQUÍ VA EL blockId DE ADSGRAM
-     3) dentro de showAd(): window.Adsgram.init({blockId:ADSGRAM_BLOCK_ID}).show().then(...)
-   Por ahora showAd() no hace nada y responde como "sin anuncio". */
-var ADSGRAM_ACTIVO=false;
+/* ---------- anuncios recompensados (Adsgram) ----------
+   SDK: https://sad.adsgram.ai/js/sad.min.js  (docs.adsgram.ai)
+   Solo se muestran si el jugador toca el botón. Nunca se lanzan solos. */
+var ADSGRAM_BLOCK_ID='61619';
+var adCtrl=null,adBusy=false;
+function escTxt(s){return String(s==null?'':s).replace(/[&<>"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]})}
+function adsgramListo(){return !!(window.Adsgram&&typeof window.Adsgram.init==='function')}
+TG.puedeAnuncio=function(){return !!(EN_TG&&adsgramListo())};
+function ctrlAds(){
+  if(adCtrl)return adCtrl;
+  if(!adsgramListo())return null;
+  try{adCtrl=window.Adsgram.init({blockId:String(ADSGRAM_BLOCK_ID)})}catch(e){adCtrl=null}
+  return adCtrl;
+}
+function falloAd(result,desc,state){
+  var r=(result&&typeof result==='object')?result:{description:String(result||desc||'error')};
+  return {done:false,error:r.error!==false,description:r.description||desc||'sin anuncio',state:r.state||state||'load',mostrado:false};
+}
 TG.showAd=window.showAd=function(){
-  if(!ADSGRAM_ACTIVO)return Promise.resolve({mostrado:false,motivo:'anuncios desactivados'});
-  return Promise.resolve({mostrado:false});
+  if(adBusy)return Promise.reject(falloAd(null,'anuncio en curso','load'));
+  if(!EN_TG)return Promise.reject(falloAd(null,'fuera de Telegram','load'));
+  var ctrl=ctrlAds();
+  if(!ctrl)return Promise.reject(falloAd(null,'sdk no disponible','load'));
+  adBusy=true;
+  var listo=function(){adBusy=false};
+  try{
+    return Promise.resolve(ctrl.show()).then(function(result){
+      listo();
+      var r=result||{};
+      if(r.done===false){
+        return Promise.reject({done:false,error:!!r.error,description:r.description||'anuncio no completado',state:r.state||'destroy',mostrado:true});
+      }
+      return {done:true,reward:true,mostrado:true,description:r.description||'completado',state:r.state||'destroy',error:false};
+    },function(result){
+      listo();
+      return Promise.reject(falloAd(result,'sin anuncio','load'));
+    });
+  }catch(e){
+    listo();
+    return Promise.reject(falloAd(e,e&&e.message||'error','load'));
+  }
 };
+TG.avisoAnuncio=function(fuera){
+  if(window.S&&S.toast){
+    if(fuera||!EN_TG)S.toast('📺','Solo en Telegram','Abre el juego desde el bot para ver anuncios.');
+    else S.toast('📺','No hay anuncio ahora','Puedes seguir jugando igual.');
+  }
+};
+/* Modal opcional antes del resultado: el jugador elige ver el anuncio o pasar. */
+TG.ofrecerContinuar=function(o){
+  o=o||{};
+  if(!TG.puedeAnuncio()||!window.S||!S.modal){if(o.onSkip)o.onSkip();return}
+  var si=o.si||'📺 Ver anuncio para continuar · +1 vida';
+  var m=S.modal(
+    '<div class="big-emoji">📺</div><h2>'+escTxt(o.titulo||'¿Continuar?')+'</h2>'+
+    '<p style="opacity:.85;margin:8px 0 18px">'+escTxt(o.sub||'Mira un anuncio corto para seguir jugando.')+'</p>'+
+    '<button class="btn big tgx-ad" type="button" id="tgAdSi">'+escTxt(si)+'</button>'+
+    '<button class="btn sec" type="button" id="tgAdNo" style="margin-top:12px;width:100%">'+escTxt(o.no||'Ver resultado')+'</button>',
+    {close:false}
+  );
+  var bSi=m.querySelector('#tgAdSi'),bNo=m.querySelector('#tgAdNo'),cerrado=false;
+  function close(){if(cerrado)return;cerrado=true;m.close()}
+  bNo.onclick=function(){if(cerrado)return;try{S.sfx('click')}catch(e){}close();if(o.onSkip)o.onSkip()};
+  bSi.onclick=function(){
+    if(cerrado||bSi.disabled)return;
+    bSi.disabled=true;if(bNo)bNo.disabled=true;
+    bSi.textContent='Cargando anuncio…';
+    TG.showAd().then(function(res){
+      close();
+      try{if(o.onReward)o.onReward(res)}catch(e){}
+    }).catch(function(){
+      bSi.disabled=false;if(bNo)bNo.disabled=false;
+      bSi.textContent=si;
+      TG.avisoAnuncio();
+    });
+  };
+};
+
+/* En la pantalla de resultado, si el juego pasa o.ad, se agrega un botón de recompensa (un toque, no automático). */
+function engancharResultado(){
+  var S=window.S;if(!S||S.__tgAd||!S.result)return;S.__tgAd=1;
+  var orig=S.result;
+  S.result=function(o){
+    o=o||{};
+    var ad=o.ad,label=ad&&ad.label;
+    if(ad&&label&&TG.puedeAnuncio()){
+      o.extra=(o.extra||'')+'<button class="btn big tgx-ad" type="button" id="rAd" style="margin-top:12px;width:100%">'+escTxt(label)+'</button>';
+    }else ad=null;
+    var r=orig.call(S,o);
+    var btn=document.getElementById('rAd');
+    if(btn&&ad){
+      btn.addEventListener('click',function(){
+        if(btn.disabled)return;
+        btn.disabled=true;btn.textContent='Cargando anuncio…';
+        TG.showAd().then(function(res){
+          btn.remove();
+          try{if(ad.onReward)ad.onReward(res)}catch(e){}
+        }).catch(function(){
+          btn.disabled=false;btn.textContent=label;
+          TG.avisoAnuncio();
+        });
+      });
+    }
+    return r;
+  };
+}
 
 /* ---------- al cargar la página ---------- */
 function botonesExtra(){
@@ -172,7 +265,7 @@ function saludo(){
   if(esJuego&&TG.nombre&&window.S&&S.toast&&!sessionStorage.getItem('tg_hola_'+page)){
     sessionStorage.setItem('tg_hola_'+page,'1');setTimeout(function(){try{S.toast('👋','¡Hola, '+TG.nombre+'!','¡Suerte en el juego!')}catch(e){}},600)}
 }
-function alCargar(){engancharMotor();botonesExtra();saludo()}
+function alCargar(){engancharMotor();engancharResultado();botonesExtra();saludo()}
 enlaces();
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',alCargar);else alCargar();
 })();

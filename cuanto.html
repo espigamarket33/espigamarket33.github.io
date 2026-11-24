@@ -80,7 +80,7 @@ function menu(){$('menu').classList.remove('hidden');$('game').classList.add('hi
 $('cats').onclick=e=>{const b=e.target.closest('.cat');if(!b)return;const c=CATS.find(k=>k.id===b.dataset.c);if(c.lvl&&S.profile.lvl<c.lvl){S.sfx('bad');S.toast('🔒','Categoría bloqueada','Llega al nivel '+c.lvl+' para abrir '+c.n);return}S.sfx('click');S.tutorial().then(()=>start(c.id))};
 $('tutB').onclick=()=>S.tutorial(true);
 let g,tm;
-function start(cat){const Q=[...P[cat]].sort(()=>Math.random()-.5);g={cat,q:Q,R:Math.min(10,Q.length),seen:[],i:0,qi:0,pts:0,streak:0,best:0,ok:0,res:[],used:{},lock:false};$('rN').textContent=g.R;$('menu').classList.add('hidden');$('game').classList.remove('hidden');$('pt').dataset.v=0;$('pt').textContent='0';['l50','lSkip','lTime'].forEach(k=>$(k).disabled=false);S.add('cat_'+cat,1);S.banner(CATS.find(c=>c.id===cat).n.toUpperCase(),'¡A JUGAR!');setTimeout(next,700)}
+function start(cat){const Q=[...P[cat]].sort(()=>Math.random()-.5);g={cat,q:Q,R:Math.min(10,Q.length),seen:[],i:0,qi:0,pts:0,streak:0,best:0,ok:0,res:[],used:{},lock:false,adExtra:false};$('rN').textContent=g.R;$('menu').classList.add('hidden');$('game').classList.remove('hidden');$('pt').dataset.v=0;$('pt').textContent='0';['l50','lSkip','lTime'].forEach(k=>$(k).disabled=false);S.add('cat_'+cat,1);S.banner(CATS.find(c=>c.id===cat).n.toUpperCase(),'¡A JUGAR!');setTimeout(next,700)}
 function opts(p){const s=[p];const f=[.42,.55,.65,.75,.85,1.18,1.3,1.45,1.65,1.9,2.3];const gap=Math.max(12,p*.09);let guard=0;
  while(s.length<4&&guard++<300){let v=Math.round(p*f[Math.random()*f.length|0]*(0.97+Math.random()*.06));if(v<10)v=10+(Math.random()*20|0);if(s.every(x=>Math.abs(x-v)>=gap))s.push(v)}
  while(s.length<4)s.push(p+Math.round(gap*(s.length+1)));return s.sort(()=>Math.random()-.5)}
@@ -107,7 +107,12 @@ function pick(v,btn){if(g.lock)return;g.lock=true;clearInterval(tm);const p=g.cu
 $('l50').onclick=()=>{if(g.lock||g.used.f)return;g.used.f=1;$('l50').disabled=true;S.add('comodines',1);S.sfx('whoosh');const bad=[...document.querySelectorAll('.opt')].filter(b=>+b.dataset.v!==g.cur[3]).sort(()=>Math.random()-.5).slice(0,2);bad.forEach(b=>b.classList.add('gone'))};
 $('lSkip').onclick=()=>{if(g.lock||g.used.s)return;g.used.s=1;$('lSkip').disabled=true;S.add('comodines',1);S.sfx('whoosh');clearInterval(tm);g.qi++;next()};
 $('lTime').onclick=()=>{if(g.lock||g.used.t)return;g.used.t=1;$('lTime').disabled=true;S.add('comodines',1);S.sfx('power');g.total+=5;S.float(innerWidth-50,140,'+5 seg','#3dff8a',24)};
-function end(){clearInterval(tm);const perfect=g.ok===g.R&&g.R>=10;let bonus=perfect?500:0;g.pts+=bonus;const noHelp=!Object.keys(g.used).length;
+function end(){clearInterval(tm);
+ if(!g.adExtra&&g.ok<g.R&&window.TG&&TG.ofrecerContinuar){
+  TG.ofrecerContinuar({titulo:'Fin de la partida',sub:'Mira un anuncio y juega una pregunta extra. Solo una vez por partida.',si:'📺 Ver anuncio para +1 pregunta extra',no:'Ver resultado',onReward:()=>{g.adExtra=true;g.R+=1;$('rN').textContent=g.R;next()},onSkip:finPartida});
+  return}
+ finPartida()}
+function finPartida(){const perfect=g.ok===g.R&&g.R>=10;let bonus=perfect?500:0;g.pts+=bonus;const noHelp=!Object.keys(g.used).length;
  S.add('partidas',1);S.max('score',g.pts);if(perfect){S.add('perfectas',1);if(noHelp)S.add('puro',1)}
  S.submit(g.pts,g.cat);
  S.result({score:g.pts,lines:[['✅ Aciertos',g.ok+' / '+g.R],['🔥 Mejor racha',g.best],...(perfect?[['💯 Bonus perfecto','+500']]:[]),['🗂️ Categoría',CATS.find(c=>c.id===g.cat).n]],xp:10+g.ok*6+(perfect?30:0),chest:g.ok>=8?'¡Acertaste '+g.ok+'! Ganaste un cofre':null,again:()=>start(g.cat),menu,extra:g.seen.length?'<div style="text-align:left;margin-top:12px;font-weight:900">🛍️ Los productos de esta partida</div>'+g.seen.map(p=>ofertaCard(p)).join('')+'<p class="onote">'+NOTA_PRECIOS+'</p>':''})}

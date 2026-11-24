@@ -1,5 +1,5 @@
 <!doctype html><!-- GENERADO por tools/build-tg.js a partir de ../toca.html · no editar a mano --><html lang="es" data-tg-page="toca"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover"><meta name="theme-color" content="#14062b"><title>Toca y Gana · Espiga Market 33 · Telegram</title>
-<link rel="icon" type="image/png" href="../img/logo.png"><link rel="apple-touch-icon" href="../img/logo.png"><link rel="stylesheet" href="../motor.css"><link rel="stylesheet" href="tg.css"><script src="https://telegram.org/js/telegram-web-app.js"></script><script src="tg.js"></script>
+<link rel="icon" type="image/png" href="../img/logo.png"><link rel="apple-touch-icon" href="../img/logo.png"><link rel="stylesheet" href="../motor.css"><link rel="stylesheet" href="tg.css"><script src="https://telegram.org/js/telegram-web-app.js"></script><script src="https://sad.adsgram.ai/js/sad.min.js"></script><script src="tg.js"></script>
 <style>
 body{touch-action:manipulation}
 .top{text-align:center;margin-top:6px}
@@ -106,7 +106,7 @@ $('retoB').onclick=()=>{S.sfx('click');const o=S.el('<div id="reto"><div class="
  let n=3;const cd=setInterval(()=>{n--;S.sfx('tick');if(n>0)$('rLeft').textContent=n;else{clearInterval(cd);$('rLeft').textContent='15.0';$('rHint').textContent='¡TOCA LO MÁS RÁPIDO QUE PUEDAS!';S.sfx('power');R.on=true}},700);S.sfx('tick');
  $('rCoin').addEventListener('pointerdown',e=>{e.preventDefault();if(!R.on)return;tap(e,true);$('rPts').textContent=S.fmt(R.pts)})};
 function endReto(){R.on=false;const r=R;$('reto').remove();S.max('reto',r.taps);S.add('retos',1);const bonus=Math.floor(r.pts*(1+L('multi')*.2));gain(bonus);
- S.result({title:'RETO 15 SEGUNDOS',score:r.pts,board:'reto',lines:[['👆 Toques',r.taps],['⚡ Toques por segundo',(r.taps/15).toFixed(1)],['🪙 Monedas de premio','+'+S.short(bonus)]],xp:8+r.taps/3,extra:ofertaCard(ofertaRandom(),'🔥 Oferta del momento'),again:()=>$('retoB').onclick(),menu:()=>S.metaTabs($('meta'),[['reto','Reto 15 segundos']])})}
+ S.result({title:'RETO 15 SEGUNDOS',score:r.pts,board:'reto',lines:[['👆 Toques',r.taps],['⚡ Toques por segundo',(r.taps/15).toFixed(1)],['🪙 Monedas de premio','+'+S.short(bonus)]],xp:8+r.taps/3,extra:ofertaCard(ofertaRandom(),'🔥 Oferta del momento'),again:()=>$('retoB').onclick(),menu:()=>S.metaTabs($('meta'),[['reto','Reto 15 segundos']]),ad:{label:'📺 Ver anuncio para duplicar el premio',onReward:()=>{gain(bonus);S.toast('📺','¡Premio doble!','+'+S.short(bonus)+' monedas');S.sfx('good')}}})}
 $('tutB').onclick=()=>S.tutorial(true);
 document.addEventListener('visibilitychange',save);addEventListener('pagehide',save);
 S.metaTabs($('meta'),[['reto','Reto 15 segundos']]);drawUps();requestAnimationFrame(loop);

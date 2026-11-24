@@ -1,5 +1,5 @@
 <!doctype html><!-- GENERADO por tools/build-tg.js a partir de ../esquiva.html · no editar a mano --><html lang="es" data-tg-page="esquiva"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover"><meta name="theme-color" content="#14062b"><title>Esquiva y Junta · Espiga Market 33 · Telegram</title>
-<link rel="icon" type="image/png" href="../img/logo.png"><link rel="apple-touch-icon" href="../img/logo.png"><link rel="stylesheet" href="../motor.css"><link rel="stylesheet" href="tg.css"><script src="https://telegram.org/js/telegram-web-app.js"></script><script src="tg.js"></script>
+<link rel="icon" type="image/png" href="../img/logo.png"><link rel="apple-touch-icon" href="../img/logo.png"><link rel="stylesheet" href="../motor.css"><link rel="stylesheet" href="tg.css"><script src="https://telegram.org/js/telegram-web-app.js"></script><script src="https://sad.adsgram.ai/js/sad.min.js"></script><script src="tg.js"></script>
 <style>
 body{overflow:hidden;touch-action:none;position:fixed;inset:0}
 #c{position:fixed;left:50%;top:0;transform:translateX(-50%);display:block}
@@ -59,7 +59,7 @@ function menu(){run=false;$('menu').classList.remove('hidden');$('hud').classLis
 let idleT=0,idling=false;function idle(){if(run){idling=false;return}idling=true;idleT+=1/60;drawBG(ZONES[0],null,0,idleT*300);requestAnimationFrame(idle)}
 $('go').onclick=()=>{S.sfx('click');S.tutorial().then(start)};
 $('tutB').onclick=()=>S.tutorial(true);
-function start(){st={lane:1,vx:1,prevLane:1,lt:-9,obs:[],speed:330,score:0,cup:0,dist:0,spawn:.8,combo:0,ct:0,maxMult:1,casi:0,pow:{shield:0,mag:0,x2:0},zone:0,zt:0,shake:0,t:0,chests:0,gems:0,inv:0,trail:[],off:0,pows:0,dead:false};
+function start(){st={lane:1,vx:1,prevLane:1,lt:-9,obs:[],speed:330,score:0,cup:0,dist:0,spawn:.8,combo:0,ct:0,maxMult:1,casi:0,pow:{shield:0,mag:0,x2:0},zone:0,zt:0,shake:0,t:0,chests:0,gems:0,inv:0,trail:[],off:0,pows:0,dead:false,continued:false};
  $('menu').classList.add('hidden');$('hud').classList.remove('hidden');$('hB').textContent=S.fmt(S.best());run=true;paused=false;last=performance.now();S.sfx('whoosh');S.banner('ZONA 1 · CIUDAD','¡VAMOS!');requestAnimationFrame(loop)}
 function move(d){if(!run||st.dead)return;const n=Math.max(0,Math.min(2,st.lane+d));if(n===st.lane)return;st.prevLane=st.lane;st.lane=n;st.lt=st.t;S.sfx('tap',n*2);S.vib(8)}
 let sx=null,sy=0;addEventListener('pointerdown',e=>{if(!run||e.target.closest('#sbar,.modal'))return;sx=e.clientX;sy=e.clientY});
@@ -116,9 +116,20 @@ function loop(now){if(!run||paused)return;const dt=Math.min(.033,(now-last)/1000
  requestAnimationFrame(loop)}
 function combo(){const m=mult(),e=$('combo');if(st.combo>=3){e.innerHTML='COMBO '+st.combo+(m>1?' · <b>x'+m+'</b>':'');e.style.transform='scale(1.25)';setTimeout(()=>e.style.transform='',90)}else e.textContent=''}
 function die(o,sx){st.dead=true;st.shake=.45;S.sfx('hit');S.vib([80,40,120]);S.flash('#ff2a55',.55);S.burst(sx,o.y,{n:50,speed:10,colors:['#ff2a55','#FFD400','#fff']});S.shake(document.body);
+ if(o)o.gone=1;
+ setTimeout(()=>{run=false;$('combo').textContent='';
+  if(!st.continued&&window.TG&&TG.ofrecerContinuar)TG.ofrecerContinuar({titulo:'¡Chocaste!',sub:'Mira un anuncio corto y sigue con +1 vida. Solo una vez por partida.',si:'📺 Ver anuncio para continuar · +1 vida',no:'Ver resultado',onReward:continuarTrasAnuncio,onSkip:finPartida});
+  else finPartida();
+ },900)}
+function continuarTrasAnuncio(){st.continued=true;st.dead=false;st.inv=2.5;st.shake=0;
+ const py=(typeof H==='number'?H:400)*.78;
+ if(st.obs)st.obs.forEach(function(o){if(o.y>py-140)o.gone=1});
+ S.banner('+1 VIDA','¡Sigue corriendo!');S.sfx('power');
+ last=performance.now();run=true;paused=false;requestAnimationFrame(loop)}
+function finPartida(){
  const sc=Math.floor(st.score),d=Math.floor(st.dist);
  S.add('partidas',1);S.add('cupones',st.cup);S.add('metros',d);S.add('poderes',st.pows);S.add('casi',st.casi);S.max('metros',d);S.max('combo',st.maxMult);S.max('zona',st.zone+1);S.max('score',sc);
- setTimeout(()=>{run=false;$('combo').textContent='';S.result({score:sc,lines:[['📏 Distancia',S.fmt(d)+' m'],['🎟️ Cupones',st.cup],['🔥 Combo máximo','x'+st.maxMult],['😱 ¡Por poco!',st.casi],['🗺️ Zona',(st.zone+1)+' · '+ZONES[st.zone].n],['💎 Gemas',st.gems]],xp:10+sc/25,chest:st.chests?'¡Encontraste un cofre en la pista!':null,again:start,menu:menu,extra:ofertaCard(ofertaRandom(),'🔥 Oferta del momento')})},900)}
+ S.result({score:sc,lines:[['📏 Distancia',S.fmt(d)+' m'],['🎟️ Cupones',st.cup],['🔥 Combo máximo','x'+st.maxMult],['😱 ¡Por poco!',st.casi],['🗺️ Zona',(st.zone+1)+' · '+ZONES[st.zone].n],['💎 Gemas',st.gems]],xp:10+sc/25,chest:st.chests?'¡Encontraste un cofre en la pista!':null,again:start,menu:menu,extra:ofertaCard(ofertaRandom(),'🔥 Oferta del momento')})}
 menu();
 })();
 </script><script>document.getElementById("discl").innerHTML=NOTA_PRECIOS+' · <a href="'+LINKTREE+'" target="_blank" rel="noopener" style="color:inherit">Mi Linktree</a>'</script></body></html>
