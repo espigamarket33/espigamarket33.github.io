@@ -1,9 +1,12 @@
-/* Shomav369 · motor de juegos v2 */
+/* Espiga Market 33 · motor de juegos v2 */
 :root{--y:#FFD400;--p:#ff3ea5;--c:#29e6ff;--g:#3dff8a;--bg1:#14062b;--bg2:#05112e;--card:rgba(255,255,255,.07);--line:rgba(255,255,255,.12)}
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent;user-select:none;-webkit-user-select:none}
 html,body{height:100%;color:#fff;font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;overscroll-behavior:none}
 body{background:radial-gradient(120% 70% at 10% 0%,#3a0d6b 0%,transparent 60%),radial-gradient(100% 60% at 100% 100%,#002f5e 0%,transparent 60%),linear-gradient(160deg,var(--bg1),var(--bg2));background-attachment:fixed;overflow-x:hidden}
 .brand{font-weight:900;letter-spacing:1px;background:linear-gradient(90deg,var(--y),#ff9d00,var(--p));-webkit-background-clip:text;background-clip:text;color:transparent;filter:drop-shadow(0 0 8px rgba(255,212,0,.35))}
+.logo{width:42px;height:42px;border-radius:10px;object-fit:cover;flex:none;box-shadow:0 0 12px rgba(255,212,0,.25)}
+.logo-lg{width:112px;height:112px;border-radius:24px;margin:0 auto 10px;display:block;object-fit:cover;box-shadow:0 8px 28px rgba(0,0,0,.35),0 0 20px rgba(255,212,0,.25)}
+.brand-row{display:flex;align-items:center;justify-content:center;gap:10px;margin-top:6px}
 .title{font-size:38px;font-weight:1000;line-height:1;letter-spacing:.5px;text-shadow:0 4px 0 rgba(0,0,0,.35),0 0 30px rgba(255,62,165,.5);background:linear-gradient(180deg,#fff 20%,var(--y));-webkit-background-clip:text;background-clip:text;color:transparent;animation:pulseT 2.4s ease-in-out infinite}
 @keyframes pulseT{50%{transform:scale(1.04)}}
 .btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;background:linear-gradient(180deg,#ffe766,var(--y) 50%,#ffb800);color:#2a1600;border:0;border-radius:18px;padding:15px 26px;font-size:20px;font-weight:900;cursor:pointer;text-decoration:none;box-shadow:0 6px 0 #b37400,0 10px 24px rgba(255,190,0,.35);transition:transform .08s,box-shadow .08s;position:relative;overflow:hidden}

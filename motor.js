@@ -1,4 +1,4 @@
-/* Shomav369 · motor de juegos v2 (meta: racha, XP, misiones, logros, skins, récords, efectos y sonido) */
+/* Espiga Market 33 · motor de juegos v2 (meta: racha, XP, misiones, logros, skins, récords, efectos y sonido) */
 (function(){
 'use strict';
 const S=window.S={};
