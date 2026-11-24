@@ -42,9 +42,9 @@ body{touch-action:manipulation}
  <div style="display:flex;gap:10px;margin-top:14px"><button class="btn" id="retoB" style="flex:1">⏱️ Reto 15 seg</button><button class="btn sec" id="tutB">❓</button></div>
  <div id="meta"></div>
  <div class="card"><h3 style="text-align:left">⬆️ Mejoras</h3><div id="ups"></div></div>
- <p class="muted" style="text-align:center">Las monedas 🪙 y gemas 💎 son del juego, no tienen valor en dinero.<br>Versión de prueba · Funciona sin internet</p>
+ <p class="muted" style="text-align:center">Las monedas 🪙 y gemas 💎 son del juego, no tienen valor en dinero.<br>Versión de prueba</p>
 </div>
-<script src="motor.js"></script>
+<script src="motor.js"></script><script src="productos.js"></script>
 <script>
 (function(){
 const $=id=>document.getElementById(id);
@@ -106,10 +106,10 @@ $('retoB').onclick=()=>{S.sfx('click');const o=S.el('<div id="reto"><div class="
  let n=3;const cd=setInterval(()=>{n--;S.sfx('tick');if(n>0)$('rLeft').textContent=n;else{clearInterval(cd);$('rLeft').textContent='15.0';$('rHint').textContent='¡TOCA LO MÁS RÁPIDO QUE PUEDAS!';S.sfx('power');R.on=true}},700);S.sfx('tick');
  $('rCoin').addEventListener('pointerdown',e=>{e.preventDefault();if(!R.on)return;tap(e,true);$('rPts').textContent=S.fmt(R.pts)})};
 function endReto(){R.on=false;const r=R;$('reto').remove();S.max('reto',r.taps);S.add('retos',1);const bonus=Math.floor(r.pts*(1+L('multi')*.2));gain(bonus);
- S.result({title:'RETO 15 SEGUNDOS',score:r.pts,board:'reto',lines:[['👆 Toques',r.taps],['⚡ Toques por segundo',(r.taps/15).toFixed(1)],['🪙 Monedas de premio','+'+S.short(bonus)]],xp:8+r.taps/3,again:()=>$('retoB').onclick(),menu:()=>S.metaTabs($('meta'),[['reto','Reto 15 segundos']])})}
+ S.result({title:'RETO 15 SEGUNDOS',score:r.pts,board:'reto',lines:[['👆 Toques',r.taps],['⚡ Toques por segundo',(r.taps/15).toFixed(1)],['🪙 Monedas de premio','+'+S.short(bonus)]],xp:8+r.taps/3,extra:ofertaCard(ofertaRandom(),'🔥 Oferta del momento'),again:()=>$('retoB').onclick(),menu:()=>S.metaTabs($('meta'),[['reto','Reto 15 segundos']])})}
 $('tutB').onclick=()=>S.tutorial(true);
 document.addEventListener('visibilitychange',save);addEventListener('pagehide',save);
 S.metaTabs($('meta'),[['reto','Reto 15 segundos']]);drawUps();requestAnimationFrame(loop);
 const tw=setInterval(()=>{if(S.profile.tut.toca)return clearInterval(tw);if(!document.querySelector('.modal')&&!$('reto')){clearInterval(tw);S.tutorial()}},1500);
 })();
-</script></body></html>
+</script><div class="wrap" style="padding-top:0"><p class="muted" style="font-size:11px;text-align:center;margin:8px 0 18px" id="discl"></p></div><script>document.getElementById("discl").innerHTML=NOTA_PRECIOS+' · <a href="'+LINKTREE+'" target="_blank" rel="noopener" style="color:inherit">Mi Linktree</a>'</script></body></html>

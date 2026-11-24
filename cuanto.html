@@ -13,7 +13,7 @@ body{touch-action:manipulation}
 .dots i{width:22px;height:8px;border-radius:5px;background:rgba(255,255,255,.15)}
 .dots i.ok{background:var(--g);box-shadow:0 0 8px var(--g)}.dots i.bad{background:#ff2a55}.dots i.cur{background:var(--y);animation:bump 1s infinite}
 .prod{position:relative;text-align:center;padding:16px 12px 14px;overflow:hidden}
-.prod .em{font-size:96px;line-height:1.1;display:inline-block;animation:floaty 2.2s ease-in-out infinite;filter:drop-shadow(0 10px 18px rgba(0,0,0,.45))}
+.prod .em img{width:170px;height:170px;object-fit:cover;border-radius:18px;background:#fff;display:block;margin:0 auto}.prod .em{font-size:96px;line-height:1.1;display:inline-block;animation:floaty 2.2s ease-in-out infinite;filter:drop-shadow(0 10px 18px rgba(0,0,0,.45))}
 .prod h2{font-size:24px;margin-top:4px}
 .tag{display:inline-block;font-size:11px;font-weight:900;letter-spacing:1px;padding:3px 10px;border-radius:999px;background:rgba(255,255,255,.12);margin-bottom:4px}
 .timer{position:absolute;top:10px;right:10px;width:58px;height:58px}
@@ -45,10 +45,10 @@ body{touch-action:manipulation}
  <div class="cats" id="cats"></div>
  <div id="meta"></div>
  <button class="btn sec sm" id="tutB">❓ Cómo se juega</button>
- <p class="muted" style="margin-top:12px">Precios de ejemplo en pesos mexicanos. En la versión final irán tus productos reales de Mercado Libre y AliExpress con su link.<br>Sin premios en dinero · Funciona sin internet</p>
+ <p class="muted" style="margin-top:12px">Productos reales de Mercado Libre y AliExpress, en pesos mexicanos. Al contestar puedes abrir la oferta.<br>Los precios pueden cambiar · Sin premios en dinero</p>
 </div>
 <div id="game" class="hidden">
- <div class="hdr"><span>Ronda <span id="rd">1</span>/10</span><span class="pill" id="streak">🔥 0</span><span style="color:var(--y);font-size:22px">⭐ <span id="pt">0</span></span></div>
+ <div class="hdr"><span>Ronda <span id="rd">1</span>/<span id="rN">10</span></span><span class="pill" id="streak">🔥 0</span><span style="color:var(--y);font-size:22px">⭐ <span id="pt">0</span></span></div>
  <div class="dots" id="dots"></div>
  <div class="card prod" id="card"><div class="timer"><svg width="58" height="58"><circle cx="29" cy="29" r="25" stroke="rgba(255,255,255,.15)" stroke-width="6" fill="none"/><circle id="tc" cx="29" cy="29" r="25" stroke="#FFD400" stroke-width="6" fill="none" stroke-linecap="round" stroke-dasharray="157" stroke-dashoffset="0"/></svg><span id="tn">10</span></div>
   <div class="tag" id="tg"></div><br><div class="em" id="em"></div><h2 id="pn"></h2><p id="pd" style="opacity:.7;margin-top:2px"></p></div>
@@ -57,17 +57,16 @@ body{touch-action:manipulation}
  <div class="life"><button id="l50"><b>✂️</b>50/50</button><button id="lSkip"><b>⏭️</b>Saltar</button><button id="lTime"><b>⏱️</b>+5 seg</button></div>
 </div>
 </div>
-<script src="motor.js"></script>
+<script src="motor.js"></script><script src="productos.js"></script>
 <script>
 (function(){
 const $=id=>document.getElementById(id);
-const CATS=[{id:'tec',n:'Tecnología',e:'📱'},{id:'hogar',n:'Hogar',e:'🏠'},{id:'cocina',n:'Cocina',e:'🍳',lvl:2},{id:'bel',n:'Belleza y moda',e:'💄',lvl:3},{id:'gamer',n:'Gamer',e:'🎮',lvl:4},{id:'mix',n:'Mixto',e:'🎲'}];
-const P={tec:[['🎧','Audífonos inalámbricos','Bluetooth, estuche de carga',349],['⌚','Reloj inteligente','Pantalla táctil, mide pasos',499],['🔋','Batería portátil','10,000 mAh',279],['🖱️','Mouse inalámbrico','Silencioso, 2.4 GHz',129],['📷','Cámara de seguridad','WiFi, visión nocturna',549],['🔊','Bocina portátil','A prueba de agua',459],['📱','Soporte para celular','Para auto, magnético',99],['🎤','Micrófono de solapa','Inalámbrico para celular',249],['🔌','Cargador rápido','USB-C, 20 W',189],['💾','Memoria USB','128 GB',159],['📺','Convertidor Smart TV','Full HD, WiFi',699],['🔦','Linterna recargable','LED, USB-C',189]],
-hogar:[['💡','Tira de luces LED','5 metros, con control',159],['🧴','Humidificador','Aroma, luz LED',219],['🧹','Aspiradora de mano','Inalámbrica',599],['🕯️','Velas aromáticas','Set de 3',179],['🛏️','Almohada viscoelástica','Ergonómica',329],['🪴','Maceta autorriego','Mediana',139],['🧺','Organizador plegable','Set de 6 cajas',249],['⏰','Despertador digital','Con luz y radio',199],['🚿','Regadera con filtro','Alta presión',289],['🪟','Cortina blackout','2 paneles',379],['🧯','Extintor para casa','1 kg',449],['🔒','Candado inteligente','Huella digital',399]],
-cocina:[['☕','Cafetera de goteo','12 tazas',749],['🍳','Freidora de aire','4 litros',1199],['🔪','Set de cuchillos','6 piezas con base',459],['🥤','Licuadora portátil','Recargable USB',299],['🍱','Recipientes de vidrio','Set de 5',349],['⚖️','Báscula de cocina','Digital, 5 kg',149],['🧇','Waflera','Antiadherente',389],['🥄','Utensilios de silicón','Set de 12',269],['🫖','Hervidor eléctrico','1.7 litros',329],['🧊','Moldes para hielo','Silicón, 2 piezas',99],['🍝','Sartén antiadherente','28 cm',429],['🥪','Sandwichera','2 panes',349]],
-bel:[['💇','Secadora de cabello','Iónica, 2000 W',489],['🪥','Cepillo eléctrico','Sónico, recargable',399],['🕶️','Lentes de sol','Polarizados',149],['🎒','Mochila antirrobo','Puerto USB',389],['💅','Kit de uñas','Lámpara UV incluida',459],['🧴','Protector solar','FPS 50, 100 ml',229],['👟','Tenis deportivos','Ligeros',699],['⌚','Correa para reloj','Silicón',89],['💄','Set de labiales','6 tonos',199],['👜','Bolsa de mano','Piel sintética',349],['🪞','Espejo con luz LED','Táctil',279],['🧢','Gorra','Ajustable',169]],
-gamer:[['🎮','Control para celular','Tipo consola, Bluetooth',429],['⌨️','Teclado mecánico','RGB, compacto',699],['🎧','Diadema gamer','Sonido envolvente',549],['🖱️','Mouse gamer','RGB, 7200 DPI',299],['🪑','Cojín lumbar','Para silla gamer',249],['🖥️','Soporte para monitor','Ajustable',459],['💡','Barra de luz para monitor','USB',389],['🕹️','Consola retro','Miles de juegos clásicos',799],['🎙️','Micrófono USB','Para stream',649],['🧤','Dedales para celular','Antisudor, 10 pzas',79],['❄️','Ventilador para celular','Enfriador magnético',259],['📹','Cámara web','1080p',499]]};
-P.mix=[].concat(P.tec,P.hogar,P.cocina,P.bel,P.gamer);
+const CATS=[{id:'ml',n:'Mercado Libre',e:'🛒'},{id:'ali',n:'AliExpress',e:'🛍️'},{id:'mix',n:'Mixto',e:'🎲'}];
+const REAL=(window.PRODUCTOS||[]).filter(p=>p&&p.p>0&&p.u);
+const EJ=[['🎧','Audífonos inalámbricos (ejemplo)','Precio de ejemplo, sin link',349],['⌚','Reloj inteligente (ejemplo)','Precio de ejemplo, sin link',499],['🔋','Batería portátil (ejemplo)','Precio de ejemplo, sin link',279],['🔊','Bocina portátil (ejemplo)','Precio de ejemplo, sin link',459],['💡','Tira de luces LED (ejemplo)','Precio de ejemplo, sin link',159]];
+const toQ=p=>[p.e,p.n,p.d,Math.round(p.p),p];
+function pool(c){let L=REAL.filter(p=>c==='mix'||p.t===c).map(toQ);if(L.length<5)L=L.concat(EJ.slice(0,5-L.length));return L}
+const P={};CATS.forEach(c=>P[c.id]=pool(c.id));
 const SK=[{id:'cl',name:'Clásico',icon:'🟣',v:{}},{id:'oce',name:'Océano',icon:'🌊',lvl:2,v:{'--bg1':'#001a33','--bg2':'#004d66','--p':'#29e6ff','--c':'#7dffea'}},{id:'atar',name:'Atardecer',icon:'🌅',cost:60,v:{'--bg1':'#3a0a1a','--bg2':'#7a2a00','--p':'#ff7a00','--c':'#ffd166'}},{id:'selva',name:'Selva',icon:'🌴',cost:120,v:{'--bg1':'#03200f','--bg2':'#0b4d2a','--p':'#3dff8a','--c':'#c6ff00'}},{id:'oro',name:'Oro',icon:'👑',lvl:5,v:{'--bg1':'#1a1200','--bg2':'#4d3600','--p':'#FFD400','--c':'#fff3a8'}},{id:'neon',name:'Noche neón',icon:'🌃',cost:200,v:{'--bg1':'#000000','--bg2':'#1a0033','--p':'#ff00d4','--c':'#00ffea'}}];
 const G=S.init({id:'cuanto',skins:SK,
  missions:[{id:'ac15',icon:'✅',txt:'Acierta 15 precios',stat:'aciertos',goal:15},{id:'ac40',icon:'✅',txt:'Acierta 40 precios',stat:'aciertos',goal:40,gems:30,xp:40},{id:'r5',icon:'🔥',txt:'Haz una racha de 5',stat:'racha',goal:5,max:true,gems:20},{id:'p2',icon:'🎮',txt:'Termina 2 partidas',stat:'partidas',goal:2,gems:10},{id:'cm1',icon:'✂️',txt:'Usa un comodín',stat:'comodines',goal:1,gems:10},{id:'s1500',icon:'⭐',txt:'Haz 1,500 puntos en una partida',stat:'score',goal:1500,max:true,gems:25},{id:'rp5',icon:'⚡',txt:'Responde bien 5 veces en menos de 3 seg',stat:'rapidas',goal:5}],
@@ -81,12 +80,14 @@ function menu(){$('menu').classList.remove('hidden');$('game').classList.add('hi
 $('cats').onclick=e=>{const b=e.target.closest('.cat');if(!b)return;const c=CATS.find(k=>k.id===b.dataset.c);if(c.lvl&&S.profile.lvl<c.lvl){S.sfx('bad');S.toast('🔒','Categoría bloqueada','Llega al nivel '+c.lvl+' para abrir '+c.n);return}S.sfx('click');S.tutorial().then(()=>start(c.id))};
 $('tutB').onclick=()=>S.tutorial(true);
 let g,tm;
-function start(cat){g={cat,q:[...P[cat]].sort(()=>Math.random()-.5),i:0,qi:0,pts:0,streak:0,best:0,ok:0,res:[],used:{},lock:false};$('menu').classList.add('hidden');$('game').classList.remove('hidden');$('pt').dataset.v=0;$('pt').textContent='0';['l50','lSkip','lTime'].forEach(k=>$(k).disabled=false);S.add('cat_'+cat,1);S.banner(CATS.find(c=>c.id===cat).n.toUpperCase(),'¡A JUGAR!');setTimeout(next,700)}
-function opts(p){const s=new Set([p]);const f=[.45,.6,.7,.8,1.25,1.4,1.6,1.9,2.3];let guard=0;while(s.size<4&&guard++<100){let v=Math.round(p*f[Math.random()*f.length|0]/10)*10-1;if(v>20&&Math.abs(v-p)>15)s.add(v)}return[...s].sort(()=>Math.random()-.5)}
+function start(cat){const Q=[...P[cat]].sort(()=>Math.random()-.5);g={cat,q:Q,R:Math.min(10,Q.length),seen:[],i:0,qi:0,pts:0,streak:0,best:0,ok:0,res:[],used:{},lock:false};$('rN').textContent=g.R;$('menu').classList.add('hidden');$('game').classList.remove('hidden');$('pt').dataset.v=0;$('pt').textContent='0';['l50','lSkip','lTime'].forEach(k=>$(k).disabled=false);S.add('cat_'+cat,1);S.banner(CATS.find(c=>c.id===cat).n.toUpperCase(),'¡A JUGAR!');setTimeout(next,700)}
+function opts(p){const s=[p];const f=[.42,.55,.65,.75,.85,1.18,1.3,1.45,1.65,1.9,2.3];const gap=Math.max(12,p*.09);let guard=0;
+ while(s.length<4&&guard++<300){let v=Math.round(p*f[Math.random()*f.length|0]*(0.97+Math.random()*.06));if(v<10)v=10+(Math.random()*20|0);if(s.every(x=>Math.abs(x-v)>=gap))s.push(v)}
+ while(s.length<4)s.push(p+Math.round(gap*(s.length+1)));return s.sort(()=>Math.random()-.5)}
 const mult=n=>n>=7?3:n>=5?2:n>=3?1.5:n>=2?1.2:1;
-function dots(){$('dots').innerHTML=Array.from({length:10},(_,k)=>'<i class="'+(g.res[k]===1?'ok':g.res[k]===0?'bad':k===g.i?'cur':'')+'"></i>').join('')}
+function dots(){$('dots').innerHTML=Array.from({length:g.R},(_,k)=>'<i class="'+(g.res[k]===1?'ok':g.res[k]===0?'bad':k===g.i?'cur':'')+'"></i>').join('')}
 function streakUI(){const m=mult(g.streak),e=$('streak');e.innerHTML='🔥 '+g.streak+(m>1?' · x'+m:'');e.style.transform='scale(1.3)';setTimeout(()=>e.style.transform='',150);e.style.boxShadow=m>1?'0 0 '+(m*8)+'px var(--p)':''}
-function next(){if(g.i>=10)return end();const p=g.q[g.qi%g.q.length];g.cur=p;g.lock=false;$('rd').textContent=g.i+1;$('em').textContent=p[0];$('pn').textContent=p[1];$('pd').textContent=p[2];$('tg').textContent=CATS.find(c=>c.id===g.cat).e+' '+CATS.find(c=>c.id===g.cat).n.toUpperCase();$('fb').textContent='';
+function next(){if(g.i>=g.R)return end();const p=g.q[g.qi%g.q.length];g.cur=p;g.lock=false;$('rd').textContent=g.i+1;$('em').innerHTML=p[4]&&p[4].i?'<img src="'+p[4].i+'" alt="" onerror="this.outerHTML=\''+p[0]+'\'">':p[0];$('pn').textContent=p[1];$('pd').textContent=p[2];$('tg').textContent=p[4]?(p[4].t==='ml'?'🛒 MERCADO LIBRE':'🛍️ ALIEXPRESS'):'EJEMPLO';$('fb').textContent='';
  const card=$('card');card.style.animation='none';void card.offsetWidth;card.style.animation='popIn .4s cubic-bezier(.2,1.4,.4,1)';
  $('opts').innerHTML=opts(p[3]).map((v,k)=>'<button class="opt" data-v="'+v+'" style="animation-delay:'+(k*.07)+'s">'+money(v)+'</button>').join('');
  dots();streakUI();g.total=10;g.st=performance.now();g.lastTick=10;clearInterval(tm);tm=setInterval(tick,50);S.sfx('whoosh')}
@@ -102,14 +103,14 @@ function pick(v,btn){if(g.lock)return;g.lock=true;clearInterval(tm);const p=g.cu
   if([3,5,7,10].includes(g.streak)){S.sfx('combo',g.streak*2);S.banner('¡RACHA DE '+g.streak+'!','x'+mult(g.streak)+' PUNTOS');if(g.streak>=5)S.confetti(60)}}
  else{const lost=g.streak;g.streak=0;g.res[g.i]=0;S.sfx('bad');S.vib([40,30,40]);S.shake($('card'));
   const diff=v===null?0:Math.abs(v-p);$('fb').innerHTML=(v===null?'⏰ Se acabó el tiempo. ':'❌ ')+'Era <span style="color:var(--g)">'+money(p)+'</span>'+(v!==null?' <span class="muted">(te fuiste por '+money(diff)+')</span>':'')+(lost>=3?'<div class="muted">Perdiste tu racha de '+lost+'</div>':'')}
- S.countTo($('pt'),g.pts,500);streakUI();g.i++;g.qi++;dots();setTimeout(next,1400)}
+ const pr=g.cur[4];if(pr){if(!g.seen.includes(pr))g.seen.push(pr);$('fb').insertAdjacentHTML('beforeend','<div style="font-size:13px;font-weight:700;opacity:.85;margin-top:4px">Precio registrado: '+precioMX(pr.p)+' en '+tiendaNombre(pr.t)+'</div><a class="ov" href="'+pr.u+'" target="_blank" rel="sponsored noopener">Ver oferta ↗</a>')}S.countTo($('pt'),g.pts,500);streakUI();g.i++;g.qi++;dots();setTimeout(next,pr?2300:1400)}
 $('l50').onclick=()=>{if(g.lock||g.used.f)return;g.used.f=1;$('l50').disabled=true;S.add('comodines',1);S.sfx('whoosh');const bad=[...document.querySelectorAll('.opt')].filter(b=>+b.dataset.v!==g.cur[3]).sort(()=>Math.random()-.5).slice(0,2);bad.forEach(b=>b.classList.add('gone'))};
 $('lSkip').onclick=()=>{if(g.lock||g.used.s)return;g.used.s=1;$('lSkip').disabled=true;S.add('comodines',1);S.sfx('whoosh');clearInterval(tm);g.qi++;next()};
 $('lTime').onclick=()=>{if(g.lock||g.used.t)return;g.used.t=1;$('lTime').disabled=true;S.add('comodines',1);S.sfx('power');g.total+=5;S.float(innerWidth-50,140,'+5 seg','#3dff8a',24)};
-function end(){clearInterval(tm);const perfect=g.ok===10;let bonus=perfect?500:0;g.pts+=bonus;const noHelp=!Object.keys(g.used).length;
+function end(){clearInterval(tm);const perfect=g.ok===g.R&&g.R>=10;let bonus=perfect?500:0;g.pts+=bonus;const noHelp=!Object.keys(g.used).length;
  S.add('partidas',1);S.max('score',g.pts);if(perfect){S.add('perfectas',1);if(noHelp)S.add('puro',1)}
  S.submit(g.pts,g.cat);
- S.result({score:g.pts,lines:[['✅ Aciertos',g.ok+' / 10'],['🔥 Mejor racha',g.best],...(perfect?[['💯 Bonus perfecto','+500']]:[]),['🗂️ Categoría',CATS.find(c=>c.id===g.cat).n]],xp:10+g.ok*6+(perfect?30:0),chest:g.ok>=8?'¡Acertaste '+g.ok+'! Ganaste un cofre':null,again:()=>start(g.cat),menu})}
+ S.result({score:g.pts,lines:[['✅ Aciertos',g.ok+' / '+g.R],['🔥 Mejor racha',g.best],...(perfect?[['💯 Bonus perfecto','+500']]:[]),['🗂️ Categoría',CATS.find(c=>c.id===g.cat).n]],xp:10+g.ok*6+(perfect?30:0),chest:g.ok>=8?'¡Acertaste '+g.ok+'! Ganaste un cofre':null,again:()=>start(g.cat),menu,extra:g.seen.length?'<div style="text-align:left;margin-top:12px;font-weight:900">🛍️ Los productos de esta partida</div>'+g.seen.map(p=>ofertaCard(p)).join('')+'<p class="onote">'+NOTA_PRECIOS+'</p>':''})}
 menu();
 })();
-</script></body></html>
+</script><div class="wrap" style="padding-top:0"><p class="muted" style="font-size:11px;text-align:center;margin:8px 0 18px" id="discl"></p></div><script>document.getElementById("discl").innerHTML=NOTA_PRECIOS+' · <a href="'+LINKTREE+'" target="_blank" rel="noopener" style="color:inherit">Mi Linktree</a>'</script></body></html>

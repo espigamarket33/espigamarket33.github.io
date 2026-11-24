@@ -31,9 +31,9 @@ body{overflow:hidden;touch-action:none;position:fixed;inset:0}
  <div id="meta"></div>
  <div class="card"><b>Poderes</b><div class="legend"><div><b>🛡️</b>Escudo: aguanta un golpe</div><div><b>🧲</b>Imán: atrae cupones</div><div><b>✖️2</b>Doble puntos</div><div><b>💎</b>Gema rara</div><div><b>🎁</b>Cofre sorpresa</div><div><b>🎟️</b>Cupón: +10 y combo</div></div></div>
  <button class="btn sec sm" id="tutB">❓ Cómo se juega</button>
- <p class="muted" style="margin-top:14px">Versión de prueba · Sin premios en dinero · Funciona sin internet</p>
+ <p class="muted" style="margin-top:14px">Versión de prueba · Sin premios en dinero</p><p class="muted" style="font-size:11px;text-align:center;margin:8px 0 18px" id="discl"></p>
 </div></div>
-<script src="motor.js"></script>
+<script src="motor.js"></script><script src="productos.js"></script>
 <script>
 (function(){
 const SK=[{id:'run',name:'Corredor',icon:'🏃',tr:'#FFD400'},{id:'skate',name:'Patineta',icon:'🛹',lvl:2,tr:'#29e6ff'},{id:'cat',name:'Michi veloz',icon:'🐱',cost:80,tr:'#ff9d00'},{id:'bot',name:'Robot',icon:'🤖',cost:150,tr:'#3dff8a'},{id:'uni',name:'Unicornio',icon:'🦄',lvl:6,tr:'#ff3ea5'},{id:'rocket',name:'Cohete',icon:'🚀',cost:300,tr:'#ff5a1f'},{id:'dragon',name:'Dragón',icon:'🐉',lvl:10,tr:'#b388ff'}];
@@ -117,7 +117,7 @@ function combo(){const m=mult(),e=$('combo');if(st.combo>=3){e.innerHTML='COMBO 
 function die(o,sx){st.dead=true;st.shake=.45;S.sfx('hit');S.vib([80,40,120]);S.flash('#ff2a55',.55);S.burst(sx,o.y,{n:50,speed:10,colors:['#ff2a55','#FFD400','#fff']});S.shake(document.body);
  const sc=Math.floor(st.score),d=Math.floor(st.dist);
  S.add('partidas',1);S.add('cupones',st.cup);S.add('metros',d);S.add('poderes',st.pows);S.add('casi',st.casi);S.max('metros',d);S.max('combo',st.maxMult);S.max('zona',st.zone+1);S.max('score',sc);
- setTimeout(()=>{run=false;$('combo').textContent='';S.result({score:sc,lines:[['📏 Distancia',S.fmt(d)+' m'],['🎟️ Cupones',st.cup],['🔥 Combo máximo','x'+st.maxMult],['😱 ¡Por poco!',st.casi],['🗺️ Zona',(st.zone+1)+' · '+ZONES[st.zone].n],['💎 Gemas',st.gems]],xp:10+sc/25,chest:st.chests?'¡Encontraste un cofre en la pista!':null,again:start,menu:menu})},900)}
+ setTimeout(()=>{run=false;$('combo').textContent='';S.result({score:sc,lines:[['📏 Distancia',S.fmt(d)+' m'],['🎟️ Cupones',st.cup],['🔥 Combo máximo','x'+st.maxMult],['😱 ¡Por poco!',st.casi],['🗺️ Zona',(st.zone+1)+' · '+ZONES[st.zone].n],['💎 Gemas',st.gems]],xp:10+sc/25,chest:st.chests?'¡Encontraste un cofre en la pista!':null,again:start,menu:menu,extra:ofertaCard(ofertaRandom(),'🔥 Oferta del momento')})},900)}
 menu();
 })();
-</script></body></html>
+</script><script>document.getElementById("discl").innerHTML=NOTA_PRECIOS+' · <a href="'+LINKTREE+'" target="_blank" rel="noopener" style="color:inherit">Mi Linktree</a>'</script></body></html>
