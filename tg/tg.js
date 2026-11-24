@@ -6,7 +6,7 @@
 var CFG=window.TG_CONFIG={
   canal:'https://t.me/espigamarket33',
   /* Cuando exista el bot / Mini App oficial, cambia esto por su enlace (ej. https://t.me/TU_BOT/juegos) */
-  urlCompartir:'https://espigamarket33.github.io/tg/',
+  urlCompartir:'https://t.me/EspigaMarket33Bot',
   textoCompartir:'🎮 ¡Juega conmigo a los mini juegos de Espiga Market 33! Gratis y sin descargar nada.',
   marcaFondo:'#14062b'
 };
