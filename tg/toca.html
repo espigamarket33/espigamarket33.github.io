@@ -1,0 +1,115 @@
+<!doctype html><!-- GENERADO por tools/build-tg.js a partir de ../toca.html · no editar a mano --><html lang="es" data-tg-page="toca"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover"><meta name="theme-color" content="#14062b"><title>Toca y Gana · Espiga Market 33 · Telegram</title>
+<link rel="icon" type="image/png" href="../img/logo.png"><link rel="apple-touch-icon" href="../img/logo.png"><link rel="stylesheet" href="../motor.css"><link rel="stylesheet" href="tg.css"><script src="https://telegram.org/js/telegram-web-app.js"></script><script src="tg.js"></script>
+<style>
+body{touch-action:manipulation}
+.top{text-align:center;margin-top:6px}
+.cnt{font-size:46px;font-weight:1000;color:var(--y);text-shadow:0 0 24px rgba(255,212,0,.55);line-height:1.05}
+.rates{display:flex;justify-content:center;gap:8px;margin-top:6px;flex-wrap:wrap}
+.stage{position:relative;height:300px;display:grid;place-items:center;margin:4px 0}
+.ring{position:absolute;width:270px;height:270px;border-radius:50%;background:conic-gradient(from 0deg,var(--y),var(--p),var(--c),var(--g),var(--y));filter:blur(18px);opacity:.55;animation:spin 6s linear infinite}
+.ring2{position:absolute;width:250px;height:250px;border-radius:50%;border:2px dashed rgba(255,255,255,.25);animation:spin 20s linear infinite reverse}
+#coin{position:relative;width:220px;height:220px;border-radius:50%;border:0;cursor:pointer;display:grid;place-items:center;font-weight:1000;color:rgba(80,40,0,.75);font-size:20px;letter-spacing:2px;box-shadow:inset 0 -10px 0 rgba(0,0,0,.25),inset 0 8px 0 rgba(255,255,255,.4),0 14px 0 rgba(0,0,0,.3),0 0 40px var(--glow,#FFD400);transition:transform .06s;touch-action:none}
+#coin .in{width:170px;height:170px;border-radius:50%;border:5px solid rgba(255,255,255,.35);display:grid;place-items:center;box-shadow:inset 0 0 20px rgba(0,0,0,.25)}
+#coin .in b{font-size:70px;line-height:1;color:rgba(255,255,255,.92);text-shadow:0 3px 0 rgba(0,0,0,.25)}
+#coin .in small{display:block;font-size:12px;color:rgba(255,255,255,.9)}
+#coin.press{transform:scale(.92) rotate(-3deg)}
+#coin.frenzy{animation:frz .3s infinite}
+@keyframes frz{50%{filter:brightness(1.4) hue-rotate(40deg)}}
+.meter{position:relative;height:22px;border-radius:12px;background:rgba(255,255,255,.1);overflow:hidden;border:1px solid var(--line)}
+.meter>div{position:absolute;inset:0 auto 0 0;width:0}
+.meter span{position:absolute;inset:0;display:grid;place-items:center;font-size:12px;font-weight:900;text-shadow:0 1px 2px #000}
+#cbF{background:linear-gradient(90deg,#ff9d00,var(--p),#ff2a55);box-shadow:0 0 14px var(--p)}
+#enF{background:linear-gradient(90deg,var(--c),var(--g))}
+.up{display:flex;align-items:center;gap:10px;padding:10px;border-radius:16px;background:rgba(255,255,255,.06);margin:8px 0;border:1px solid transparent;transition:.2s}
+.up.can{border-color:rgba(255,212,0,.6);box-shadow:0 0 16px rgba(255,212,0,.2)}
+.up .ic{font-size:30px;width:42px;text-align:center}
+.up .tx{flex:1;text-align:left;min-width:0}.up .tx b{display:block}.up .tx small{opacity:.7;font-size:12px}
+.up .btn{min-width:96px}
+#gold{position:fixed;z-index:50;font-size:58px;cursor:pointer;filter:drop-shadow(0 0 18px #FFD400);animation:gfl 1.6s ease-in-out infinite;touch-action:none}
+@keyframes gfl{50%{transform:translateY(-14px) rotate(12deg) scale(1.1)}}
+#reto{position:fixed;inset:0;z-index:55;background:radial-gradient(circle at 50% 40%,#5a0b5a,#120428);display:flex;flex-direction:column;align-items:center;justify-content:center;touch-action:none}
+#reto .t{font-size:90px;font-weight:1000;color:var(--y);text-shadow:0 0 30px var(--y)}
+#rCoin{width:240px;height:240px}
+</style></head><body>
+<div class="wrap">
+ <div class="top"><div class="brand-row"><img class="logo" src="../img/logo.png" alt="Espiga Market 33" width="42" height="42"><span class="brand" style="font-size:16px">Espiga Market 33 · TOCA Y GANA</span></div>
+  <div class="cnt">🪙 <span id="cN">0</span></div>
+  <div class="rates"><span class="pill">👆 <span id="rT">1</span>/toque</span><span class="pill">⛏️ <span id="rS">0</span>/seg</span><span class="pill" id="frP" style="display:none;color:var(--p)">🔥 FRENESÍ x3</span></div>
+ </div>
+ <div class="meter" style="margin-top:12px"><div id="cbF"></div><span id="cbT">COMBO x1 · toca rápido</span></div>
+ <div class="stage"><div class="ring"></div><div class="ring2"></div><button id="coin" aria-label="Moneda"><div class="in"><div><img src="../img/logo.png" alt="Espiga Market 33" width="88" height="88" style="width:88px;height:88px;border-radius:50%;object-fit:cover;display:block;margin:0 auto"><small>ESPIGA 33</small></div></div></button></div>
+ <div class="meter"><div id="enF"></div><span id="enT"></span></div>
+ <div style="display:flex;gap:10px;margin-top:14px"><button class="btn" id="retoB" style="flex:1">⏱️ Reto 15 seg</button><button class="btn sec" id="tutB">❓</button></div>
+ <div id="meta"></div>
+ <div class="card"><h3 style="text-align:left">⬆️ Mejoras</h3><div id="ups"></div></div>
+ <p class="muted" style="text-align:center">Las monedas 🪙 y gemas 💎 son del juego, no tienen valor en dinero.<br>Versión de prueba</p>
+</div>
+<script src="../motor.js"></script><script src="../productos.js"></script><script>(window.PRODUCTOS||[]).forEach(function(p){if(p&&p.i&&!/^(https?:|\/|data:)/.test(p.i))p.i="../"+p.i})</script>
+<script>
+(function(){
+const $=id=>document.getElementById(id);
+const SK=[{id:'oro',name:'Oro clásico',icon:'🟡',bg:'radial-gradient(circle at 35% 30%,#fff6a8,#FFD400 35%,#d18a00 75%,#7a4a00)',gl:'#FFD400'},{id:'plata',name:'Plata',icon:'⚪',lvl:2,bg:'radial-gradient(circle at 35% 30%,#fff,#cfd8e6 35%,#7d8aa3 75%,#3b4459)',gl:'#cfe3ff'},{id:'esm',name:'Esmeralda',icon:'🟢',cost:60,bg:'radial-gradient(circle at 35% 30%,#d6ffe9,#3dff8a 35%,#0f9d58 75%,#03401f)',gl:'#3dff8a'},{id:'rubi',name:'Rubí',icon:'🔴',cost:120,bg:'radial-gradient(circle at 35% 30%,#ffd6de,#ff2a55 35%,#a3002a 75%,#40000f)',gl:'#ff2a55'},{id:'dia',name:'Diamante',icon:'💎',lvl:5,bg:'radial-gradient(circle at 35% 30%,#fff,#9ff3ff 35%,#29b6e6 75%,#0b3d66)',gl:'#29e6ff'},{id:'neon',name:'Neón',icon:'🟣',cost:200,bg:'radial-gradient(circle at 35% 30%,#ffd0f5,#ff3ea5 35%,#7a00ff 75%,#1a0040)',gl:'#ff3ea5'},{id:'arco',name:'Arcoíris',icon:'🌈',lvl:8,bg:'conic-gradient(#ff2a55,#ff9d00,#FFD400,#3dff8a,#29e6ff,#7a00ff,#ff2a55)',gl:'#fff'},{id:'gal',name:'Galaxia',icon:'🌌',cost:400,bg:'radial-gradient(circle at 30% 30%,#fff 0 2%,transparent 3%),radial-gradient(circle at 70% 60%,#fff 0 1.5%,transparent 2.5%),radial-gradient(circle at 40% 40%,#7a4dff,#2b0a6b 60%,#05001a)',gl:'#b388ff'}];
+const G=S.init({id:'toca',skins:SK,
+ missions:[{id:'t300',icon:'👆',txt:'Toca 300 veces',stat:'toques',goal:300},{id:'t1000',icon:'👆',txt:'Toca 1,000 veces',stat:'toques',goal:1000,gems:30,xp:40},{id:'c5k',icon:'🪙',txt:'Gana 5,000 monedas',stat:'monedas',goal:5000},{id:'c50k',icon:'💰',txt:'Gana 50,000 monedas',stat:'monedas',goal:50000,gems:30,xp:40},{id:'up3',icon:'⬆️',txt:'Compra 3 mejoras',stat:'mejoras',goal:3},{id:'gold1',icon:'🌟',txt:'Atrapa 1 moneda dorada',stat:'doradas',goal:1,gems:20},{id:'cb4',icon:'🔥',txt:'Llega a combo x4',stat:'combo',goal:4,max:true},{id:'reto60',icon:'⏱️',txt:'Haz 60 toques en el Reto 15 seg',stat:'reto',goal:60,max:true,gems:25},{id:'cr5',icon:'💥',txt:'Logra 5 golpes críticos',stat:'criticos',goal:5}],
+ achievements:[{id:'b1',icon:'👆',name:'Primer toque',desc:'Toca la moneda',test:s=>s.toques>=1},{id:'b2',icon:'✋',name:'Dedo rápido',desc:'1,000 toques en total',test:s=>s.toques>=1000},{id:'b3',icon:'🦾',name:'Dedo de acero',desc:'10,000 toques en total',test:s=>s.toques>=10000},{id:'b4',icon:'🪙',name:'Ahorrador',desc:'Gana 10,000 monedas',test:s=>s.monedas>=1e4},{id:'b5',icon:'💰',name:'Rico',desc:'Gana 100,000 monedas',test:s=>s.monedas>=1e5},{id:'b6',icon:'🏦',name:'Millonario del juego',desc:'Gana 1,000,000 monedas',test:s=>s.monedas>=1e6},{id:'b7',icon:'🔥',name:'En llamas',desc:'Llega a combo x5',test:s=>s.max_combo>=5},{id:'b8',icon:'🌟',name:'Cazador dorado',desc:'Atrapa 10 monedas doradas',test:s=>s.doradas>=10},{id:'b9',icon:'⏱️',name:'Relámpago',desc:'90 toques en el Reto 15 seg',test:s=>s.max_reto>=90},{id:'b10',icon:'⬆️',name:'Inversionista',desc:'Compra 25 mejoras',test:s=>s.mejoras>=25},{id:'b11',icon:'💥',name:'Crítico',desc:'50 golpes críticos',test:s=>s.criticos>=50},{id:'b12',icon:'🏭',name:'Empresario',desc:'Llega a 100 monedas por segundo',test:s=>s.max_porseg>=100}],
+ tutorial:[{icon:'👆🪙',title:'Toca la moneda',txt:'Cada toque te da monedas 🪙 y gasta 1 de energía ⚡, que se recarga sola.'},{icon:'🔥',title:'Combo',txt:'Si tocas rápido se llena la barra de <b>combo</b> y ganas hasta <b>x5</b>.'},{icon:'⬆️⛏️',title:'Mejoras',txt:'Compra mejoras: más monedas por toque, más energía, golpes críticos y un <b>auto-minero</b> que junta monedas aunque no estés.'},{icon:'🌟⏱️',title:'Sorpresas y reto',txt:'A veces aparece una <b>moneda dorada</b> 🌟 con un premio sorpresa. Y prueba el <b>Reto 15 seg</b> para tu récord.'}],
+ onSkin:applySkin});
+const UP=[{id:'multi',ic:'👆',n:'Multitoque',d:'+1 moneda por toque',b:15,k:1.5},{id:'bat',ic:'🔋',n:'Batería',d:'+100 de energía máxima',b:40,k:1.6},{id:'rec',ic:'⚡',n:'Recarga rápida',d:'+1 energía por segundo',b:60,k:1.65},{id:'auto',ic:'⛏️',n:'Auto-minero',d:'+1 moneda por segundo',b:100,k:1.55},{id:'crit',ic:'💥',n:'Golpe crítico',d:'+3% de probabilidad de x10',b:200,k:1.8,max:15},{id:'cmb',ic:'🔥',n:'Combo largo',d:'El combo baja más lento',b:150,k:1.7,max:10},{id:'luck',ic:'🌟',n:'Suerte dorada',d:'Monedas doradas más seguido',b:300,k:1.8,max:10},{id:'fab',ic:'🏭',n:'Fábrica',d:'+8 monedas por segundo',b:1500,k:1.6},{id:'mul',ic:'📈',n:'Multiplicador',d:'+25% a todo lo que ganas',b:5000,k:2.1,max:20}];
+let T=S.load('toca_state',null)||{c:0,lv:{},en:500,t:Date.now()};
+const L=id=>T.lv[id]||0;
+const cost=u=>Math.floor(u.b*Math.pow(u.k,L(u.id)));
+const enMax=()=>500+100*L('bat'),enReg=()=>2+L('rec'),perTap=()=>(1+L('multi'))*(1+.25*L('mul')),perSec=()=>(L('auto')+8*L('fab'))*(1+.25*L('mul'));
+let combo=0,frenzy=0,disp=T.c,shown=-1,tapsXP=0;
+const save=()=>{T.t=Date.now();S.save('toca_state',T)};
+function applySkin(){const s=SK.find(k=>k.id===S.skin())||SK[0];const co=$('coin');co.style.background=s.bg;co.style.setProperty('--glow',s.gl)}
+applySkin();
+/* ganancias sin conexión (honesto: solo lo que produce tu auto-minero, máximo 3 horas) */
+(function(){const el=Math.min(3*3600,(Date.now()-T.t)/1000);T.en=Math.min(enMax(),T.en+el*enReg());const g=Math.floor(el*perSec());if(g>0&&el>60){setTimeout(()=>{const m=S.modal('<div class="big-emoji">⛏️</div><h2>¡Bienvenido de vuelta!</h2><p style="opacity:.85">Mientras no estabas, tu auto-minero trabajó '+(el>=3600?Math.floor(el/3600)+' h ':'')+Math.floor(el%3600/60)+' min y juntó:</p><div class="score-big">+'+S.short(g)+' 🪙</div><p class="muted">Máximo 3 horas. Sube el Auto-minero y la Fábrica para ganar más.</p><button class="btn big" id="ofB">Recoger</button>',{close:false});m.querySelector('#ofB').onclick=()=>{gain(g,innerWidth/2,innerHeight/2,true);S.sfx('gem');S.confetti(50);m.close()}},1200)}save()})();
+function gain(v,x,y,quiet){T.c+=v;S.add('monedas',Math.floor(v));if(!quiet)0}
+function tap(e,inReto){const co=inReto?$('rCoin'):$('coin');co.classList.add('press');setTimeout(()=>co.classList.remove('press'),60);
+ const x=e.clientX||innerWidth/2,y=e.clientY||innerHeight/2;
+ combo=Math.min(100,combo+8);const m=1+Math.floor(combo/25);
+ if(inReto){R.taps++;R.pts+=10*m;S.sfx('tap',m*2);S.vib(6);S.float(x,y-30,'+'+10*m,m>2?'#ff3ea5':'#FFD400');if(Math.random()<.3)S.burst(x,y,{n:4,emoji:'🪙',size:18,speed:5});return}
+ if(T.en<1){S.float(x,y-30,'😴 Sin energía','#aaa',18);S.sfx('bad');return}
+ T.en-=1;let v=perTap()*m*(frenzy>0?3:1);const crit=Math.random()<L('crit')*.03;if(crit){v*=10;S.add('criticos',1);S.sfx('combo',18);S.shake($('coin'));S.flash('#FFD400',.25);S.float(x,y-50,'¡CRÍTICO! +'+S.short(v),'#ff3ea5',32);S.burst(x,y,{n:24,speed:8});S.vib([20,20,40])}else{S.float(x,y-30,'+'+S.short(v),m>2?'#ff3ea5':'#FFD400',20+m*2);S.sfx('tap',m*2+combo/20);S.vib(6)}
+ if(Math.random()<.35)S.burst(x,y,{n:3,emoji:'🪙',size:18,speed:5});
+ gain(v,x,y);S.add('toques',1);if(m>1)S.max('combo',m);
+ if(++tapsXP>=25){tapsXP=0;S.addXP(3)}}
+$('coin').addEventListener('pointerdown',e=>{e.preventDefault();tap(e)});
+/* moneda dorada: premio variable */
+let goldT=20+Math.random()*20;
+function spawnGold(){if($('gold')||document.querySelector('.modal')||$('reto'))return;const g=S.el('<div id="gold">🌟</div>');g.style.left=(20+Math.random()*(innerWidth-110))+'px';g.style.top=(140+Math.random()*(innerHeight-320))+'px';document.body.appendChild(g);S.sfx('near');setTimeout(()=>g.remove(),7000);
+ g.addEventListener('pointerdown',e=>{e.preventDefault();g.remove();S.add('doradas',1);S.vib([30,30,60]);const r=Math.random(),x=e.clientX,y=e.clientY;S.burst(x,y,{n:50,speed:9});
+  if(r<.55){const v=Math.max(50,Math.floor(perSec()*60+perTap()*40));gain(v);S.sfx('chest');S.banner('+'+S.short(v)+' 🪙','LLUVIA DE MONEDAS');for(let i=0;i<4;i++)setTimeout(()=>S.burst(Math.random()*innerWidth,-10,{n:12,emoji:'🪙',size:24,speed:3,g:.3}),i*150)}
+  else if(r<.85){frenzy=10;S.sfx('power');S.banner('FRENESÍ x3','10 SEGUNDOS');S.flash('#ff3ea5',.3)}
+  else if(r<.95){S.sfx('gem');S.addGems(5,x,y);S.banner('+5 💎','¡GEMAS!')}
+  else{T.en=enMax();S.sfx('power');S.banner('⚡ ENERGÍA LLENA','¡SORPRESA!')}})}
+/* mejoras */
+function drawUps(){$('ups').innerHTML=UP.map(u=>{const lv=L(u.id),mx=u.max&&lv>=u.max,c=cost(u);return '<div class="up'+(!mx&&T.c>=c?' can':'')+'"><div class="ic">'+u.ic+'</div><div class="tx"><b>'+u.n+' <span class="pill" style="font-size:11px;padding:2px 7px">Nv '+lv+'</span></b><small>'+u.d+'</small></div><button class="btn sm" data-u="'+u.id+'" '+(mx||T.c<c?'disabled':'')+'>'+(mx?'MÁX':'🪙 '+S.short(c))+'</button></div>'}).join('')}
+$('ups').addEventListener('click',e=>{const id=e.target.closest('[data-u]')?.dataset.u;if(!id)return;const u=UP.find(k=>k.id===id),c=cost(u);if(T.c<c)return;T.c-=c;T.lv[id]=L(id)+1;S.sfx('power');S.vib(20);const r=e.target.getBoundingClientRect();S.burst(r.left+r.width/2,r.top,{n:20});S.float(r.left+r.width/2,r.top,u.n+' Nv '+T.lv[id],'#3dff8a',18);S.add('mejoras',1);S.max('porseg',Math.floor(perSec()));S.addXP(5);save();drawUps()});
+/* bucle */
+let lt=performance.now(),acc=0,upAcc=0;
+function loop(now){const dt=Math.min(.25,(now-lt)/1000);lt=now;
+ T.en=Math.min(enMax(),T.en+enReg()*dt);const ps=perSec()*(frenzy>0?3:1);if(ps>0){acc+=ps*dt;if(acc>=1){const w=Math.floor(acc);acc-=w;gain(w)}}
+ combo=Math.max(0,combo-(28-L('cmb')*2)*dt);if(frenzy>0){frenzy-=dt;if(frenzy<=0)frenzy=0}
+ const m=1+Math.floor(combo/25);$('cbF').style.width=combo+'%';$('cbT').textContent=combo>0?'COMBO x'+m+(m>=5?' 🔥 ¡MÁXIMO!':''):'COMBO x1 · toca rápido';
+ $('enF').style.width=(T.en/enMax()*100)+'%';$('enT').textContent='⚡ '+Math.floor(T.en)+' / '+enMax()+'  (+'+enReg()+'/seg)';
+ disp+=(T.c-disp)*Math.min(1,dt*10);if(Math.abs(T.c-disp)<1)disp=T.c;const sh=Math.floor(disp);if(sh!==shown){shown=sh;$('cN').textContent=S.short(sh)}
+ $('rT').textContent=S.short(perTap()*m*(frenzy>0?3:1));$('rS').textContent=S.short(ps);$('frP').style.display=frenzy>0?'':'none';$('coin').classList.toggle('frenzy',frenzy>0);
+ goldT-=dt;if(goldT<=0){goldT=Math.max(12,45-L('luck')*3)*(.6+Math.random()*.8);spawnGold()}
+ upAcc+=dt;if(upAcc>1){upAcc=0;drawUps();save()}
+ if(R&&R.on){R.left-=dt;$('rLeft').textContent=Math.max(0,R.left).toFixed(1);if(R.left<=0)endReto()}
+ requestAnimationFrame(loop)}
+/* Reto 15 segundos */
+let R=null;
+$('retoB').onclick=()=>{S.sfx('click');const o=S.el('<div id="reto"><div class="muted" style="letter-spacing:3px;font-weight:900">RETO 15 SEGUNDOS</div><div class="t" id="rLeft">3</div><div style="font-size:22px;font-weight:900">⭐ <span id="rPts">0</span></div><div class="stage" style="height:280px"><div class="ring"></div><button id="rCoin" style="position:relative;width:230px;height:230px;border-radius:50%;border:0;background:'+$('coin').style.background+';box-shadow:0 0 50px #FFD400"><div style="font-size:80px;color:#fff;font-weight:1000">S</div></button></div><div class="muted" id="rHint">¡Prepárate!</div></div>');document.body.appendChild(o);combo=0;R={on:false,taps:0,pts:0,left:15};
+ let n=3;const cd=setInterval(()=>{n--;S.sfx('tick');if(n>0)$('rLeft').textContent=n;else{clearInterval(cd);$('rLeft').textContent='15.0';$('rHint').textContent='¡TOCA LO MÁS RÁPIDO QUE PUEDAS!';S.sfx('power');R.on=true}},700);S.sfx('tick');
+ $('rCoin').addEventListener('pointerdown',e=>{e.preventDefault();if(!R.on)return;tap(e,true);$('rPts').textContent=S.fmt(R.pts)})};
+function endReto(){R.on=false;const r=R;$('reto').remove();S.max('reto',r.taps);S.add('retos',1);const bonus=Math.floor(r.pts*(1+L('multi')*.2));gain(bonus);
+ S.result({title:'RETO 15 SEGUNDOS',score:r.pts,board:'reto',lines:[['👆 Toques',r.taps],['⚡ Toques por segundo',(r.taps/15).toFixed(1)],['🪙 Monedas de premio','+'+S.short(bonus)]],xp:8+r.taps/3,extra:ofertaCard(ofertaRandom(),'🔥 Oferta del momento'),again:()=>$('retoB').onclick(),menu:()=>S.metaTabs($('meta'),[['reto','Reto 15 segundos']])})}
+$('tutB').onclick=()=>S.tutorial(true);
+document.addEventListener('visibilitychange',save);addEventListener('pagehide',save);
+S.metaTabs($('meta'),[['reto','Reto 15 segundos']]);drawUps();requestAnimationFrame(loop);
+const tw=setInterval(()=>{if(S.profile.tut.toca)return clearInterval(tw);if(!document.querySelector('.modal')&&!$('reto')){clearInterval(tw);S.tutorial()}},1500);
+})();
+</script><div class="wrap" style="padding-top:0"><a class="tg-btn sm" href="https://t.me/espigamarket33" target="_blank" rel="noopener"><span class="tg-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M2.01 21 23 12 2.01 3 2 10l15 2-15 2z"/></svg></span><span class="tg-txt"><strong>Únete a mi canal de Telegram</strong><small>Ofertas diarias de Mercado Libre y AliExpress</small></span></a><p class="muted" style="font-size:11px;text-align:center;margin:8px 0 18px" id="discl"></p></div><script>document.getElementById("discl").innerHTML=NOTA_PRECIOS+' · <a href="'+LINKTREE+'" target="_blank" rel="noopener" style="color:inherit">Mi Linktree</a>'</script></body></html>

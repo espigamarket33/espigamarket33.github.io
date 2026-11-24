@@ -1,0 +1,124 @@
+<!doctype html><!-- GENERADO por tools/build-tg.js a partir de ../esquiva.html · no editar a mano --><html lang="es" data-tg-page="esquiva"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover"><meta name="theme-color" content="#14062b"><title>Esquiva y Junta · Espiga Market 33 · Telegram</title>
+<link rel="icon" type="image/png" href="../img/logo.png"><link rel="apple-touch-icon" href="../img/logo.png"><link rel="stylesheet" href="../motor.css"><link rel="stylesheet" href="tg.css"><script src="https://telegram.org/js/telegram-web-app.js"></script><script src="tg.js"></script>
+<style>
+body{overflow:hidden;touch-action:none;position:fixed;inset:0}
+#c{position:fixed;left:50%;top:0;transform:translateX(-50%);display:block}
+#hud{position:fixed;top:56px;left:50%;transform:translateX(-50%);width:100%;max-width:480px;padding:6px 14px;display:flex;justify-content:space-between;align-items:flex-start;pointer-events:none;z-index:20}
+#hud .sc{font-size:34px;font-weight:1000;line-height:1;text-shadow:0 0 16px rgba(255,212,0,.6);color:var(--y)}
+#hud .sub{font-size:13px;font-weight:800;opacity:.85;margin-top:3px}
+#pw{display:flex;gap:6px;justify-content:flex-end;margin-top:6px}
+.pwi{width:40px;height:40px;border-radius:12px;background:rgba(0,0,0,.45);border:1px solid rgba(255,255,255,.25);display:grid;place-items:center;font-size:22px;position:relative;overflow:hidden}
+.pwi i{position:absolute;left:0;bottom:0;height:4px;background:var(--g);box-shadow:0 0 8px var(--g)}
+#combo{position:fixed;top:128px;left:0;right:0;text-align:center;z-index:20;pointer-events:none;font-weight:1000;font-size:22px;transition:transform .1s;text-shadow:0 0 14px var(--p)}
+#combo b{color:var(--y);font-size:30px}
+#menu{position:fixed;inset:0;z-index:30;overflow:auto;padding-top:56px;background:linear-gradient(180deg,rgba(20,6,43,.55),rgba(5,17,46,.92))}
+.hero{font-size:64px;letter-spacing:6px;margin:14px 0 4px;animation:floaty 2s infinite ease-in-out;display:inline-block}
+.legend{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:8px}
+.legend div{background:rgba(255,255,255,.06);border-radius:14px;padding:8px 4px;font-size:12px;font-weight:700}
+.legend b{display:block;font-size:26px}
+#pauseB{position:fixed;bottom:16px;right:16px;z-index:25}
+</style></head><body>
+<canvas id="c"></canvas>
+<div id="hud" class="hidden"><div><div class="sc" id="hSc">0</div><div class="sub">🎟️ <span id="hCu">0</span> · <span id="hM">0</span> m</div><div class="sub" id="hZ" style="color:var(--c)"></div></div><div><div class="sub" style="text-align:right">🏆 <span id="hB">0</span></div><div id="pw"></div></div></div>
+<div id="combo"></div>
+<div id="menu"><div class="wrap" style="text-align:center">
+ <div class="brand-row"><img class="logo" src="../img/logo.png" alt="Espiga Market 33" width="42" height="42"><div class="brand" style="font-size:18px">Espiga Market 33</div></div>
+ <div class="hero" id="mHero">🏃🎟️</div>
+ <h1 class="title">ESQUIVA<br>Y JUNTA</h1>
+ <p style="opacity:.85;margin:10px 0">Esquiva obstáculos, junta cupones y viaja por 5 zonas.</p>
+ <div class="card" style="display:flex;justify-content:space-around;padding:10px"><div><div class="muted">Tu récord</div><b style="font-size:22px;color:var(--y)" id="mBest">0</b></div><div><div class="muted">Mejor distancia</div><b style="font-size:22px;color:var(--c)" id="mDist">0 m</b></div></div>
+ <button class="btn big" id="go">▶ ¡JUGAR!</button>
+ <div id="meta"></div>
+ <div class="card"><b>Poderes</b><div class="legend"><div><b>🛡️</b>Escudo: aguanta un golpe</div><div><b>🧲</b>Imán: atrae cupones</div><div><b>✖️2</b>Doble puntos</div><div><b>💎</b>Gema rara</div><div><b>🎁</b>Cofre sorpresa</div><div><b>🎟️</b>Cupón: +10 y combo</div></div></div>
+ <button class="btn sec sm" id="tutB">❓ Cómo se juega</button>
+ <a class="tg-btn sm" href="https://t.me/espigamarket33" target="_blank" rel="noopener"><span class="tg-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M2.01 21 23 12 2.01 3 2 10l15 2-15 2z"/></svg></span><span class="tg-txt"><strong>Únete a mi canal de Telegram</strong><small>Ofertas diarias de Mercado Libre y AliExpress</small></span></a>
+ <p class="muted" style="margin-top:14px">Versión de prueba · Sin premios en dinero</p><p class="muted" style="font-size:11px;text-align:center;margin:8px 0 18px" id="discl"></p>
+</div></div>
+<script src="../motor.js"></script><script src="../productos.js"></script><script>(window.PRODUCTOS||[]).forEach(function(p){if(p&&p.i&&!/^(https?:|\/|data:)/.test(p.i))p.i="../"+p.i})</script>
+<script>
+(function(){
+const SK=[{id:'run',name:'Corredor',icon:'🏃',tr:'#FFD400'},{id:'skate',name:'Patineta',icon:'🛹',lvl:2,tr:'#29e6ff'},{id:'cat',name:'Michi veloz',icon:'🐱',cost:80,tr:'#ff9d00'},{id:'bot',name:'Robot',icon:'🤖',cost:150,tr:'#3dff8a'},{id:'uni',name:'Unicornio',icon:'🦄',lvl:6,tr:'#ff3ea5'},{id:'rocket',name:'Cohete',icon:'🚀',cost:300,tr:'#ff5a1f'},{id:'dragon',name:'Dragón',icon:'🐉',lvl:10,tr:'#b388ff'}];
+const G=S.init({id:'esquiva',skins:SK,
+ missions:[{id:'cup30',icon:'🎟️',txt:'Junta 30 cupones',stat:'cupones',goal:30},{id:'cup80',icon:'🎟️',txt:'Junta 80 cupones',stat:'cupones',goal:80,gems:30,xp:40},{id:'m1500',icon:'🏃',txt:'Recorre 1,500 m en total',stat:'metros',goal:1500},{id:'m600',icon:'📏',txt:'Llega a 600 m en una partida',stat:'metros',goal:600,max:true,gems:20},{id:'pow3',icon:'⚡',txt:'Agarra 3 poderes',stat:'poderes',goal:3},{id:'combo3',icon:'🔥',txt:'Llega a combo x3',stat:'combo',goal:3,max:true},{id:'play3',icon:'🎮',txt:'Juega 3 partidas',stat:'partidas',goal:3,gems:10},{id:'casi5',icon:'😱',txt:'Logra 5 "¡Por poco!"',stat:'casi',goal:5},{id:'zona3',icon:'🌈',txt:'Llega a la zona Neón',stat:'zona',goal:3,max:true,gems:25}],
+ achievements:[{id:'a1',icon:'👟',name:'Primera carrera',desc:'Juega tu primera partida',test:s=>s.partidas>=1},{id:'a2',icon:'🎟️',name:'Cazacupones',desc:'Junta 100 cupones en total',test:s=>s.cupones>=100},{id:'a3',icon:'🏅',name:'Kilómetro',desc:'Recorre 1,000 m en una partida',test:s=>s.max_metros>=1000},{id:'a4',icon:'🌵',name:'Viajero',desc:'Llega al Desierto',test:s=>s.max_zona>=2},{id:'a5',icon:'🧊',name:'Explorador',desc:'Llega a la zona Hielo',test:s=>s.max_zona>=4},{id:'a6',icon:'🚀',name:'Astronauta',desc:'Llega al Espacio',test:s=>s.max_zona>=5},{id:'a7',icon:'🔥',name:'Imparable',desc:'Llega a combo x5',test:s=>s.max_combo>=5},{id:'a8',icon:'😱',name:'Nervios de acero',desc:'Logra 25 "¡Por poco!"',test:s=>s.casi>=25},{id:'a9',icon:'🛡️',name:'Protegido',desc:'El escudo te salva 5 veces',test:s=>s.salvadas>=5},{id:'a10',icon:'🎁',name:'Suertudo',desc:'Encuentra un cofre en la pista',test:s=>s.cofres>=1},{id:'a11',icon:'💯',name:'Veterano',desc:'Juega 25 partidas',test:s=>s.partidas>=25},{id:'a12',icon:'👑',name:'Leyenda',desc:'Haz 5,000 puntos en una partida',test:s=>s.max_score>=5000}],
+ tutorial:[{icon:'👈👉',title:'Cambia de carril',txt:'Desliza o toca el lado <b>izquierdo</b> o <b>derecho</b> de la pantalla. En compu usa las flechas.'},{icon:'📦🚧',title:'Esquiva',txt:'Si chocas con un obstáculo se acaba la carrera. Pasar muy cerca da <b>¡Por poco!</b> y puntos extra.'},{icon:'🎟️🔥',title:'Junta cupones',txt:'Cada cupón da puntos. Si juntas seguidos subes el <b>combo</b> hasta x5.'},{icon:'🛡️🧲✖️2',title:'Poderes y zonas',txt:'Agarra poderes, busca cofres 🎁 y llega a nuevas zonas: Desierto, Neón, Hielo y Espacio.'}],
+ onSkin:()=>hero()});
+const $=id=>document.getElementById(id);
+document.getElementById('sbar').classList.add('fixed');
+const ZONES=[{n:'Ciudad',d:0,c:['#1a0b3d','#4a1a8a'],obs:['📦','🚧'],ln:'#ff3ea5'},{n:'Desierto',d:400,c:['#3a1204','#c0601c'],obs:['🌵','🪨'],ln:'#FFD400'},{n:'Neón',d:1000,c:['#060033','#c4006b'],obs:['📦','⚡'],ln:'#29e6ff'},{n:'Hielo',d:1700,c:['#02243d','#3aa7d8'],obs:['🧊','⛄'],ln:'#ffffff'},{n:'Espacio',d:2600,c:['#00000f','#2b0055'],obs:['☄️','🛸'],ln:'#b388ff'}];
+const c=$('c'),x=c.getContext('2d');let W,H,DPR;
+function rs(){DPR=Math.min(2,devicePixelRatio||1);W=Math.min(innerWidth,480);H=innerHeight;c.width=W*DPR;c.height=H*DPR;c.style.width=W+'px';c.style.height=H+'px';x.setTransform(DPR,0,0,DPR,0,0)}addEventListener('resize',rs);rs();
+const cache={};function spr(e,s){const k=e+s;if(cache[k])return cache[k];const o=document.createElement('canvas');o.width=o.height=s*1.4*DPR;const g=o.getContext('2d');g.scale(DPR,DPR);g.font=s+'px "Noto Color Emoji","Apple Color Emoji","Segoe UI Emoji",sans-serif';g.textAlign='center';g.textBaseline='middle';g.fillText(e,s*.7,s*.75);return cache[k]=o}
+function drawE(e,s,cx,cy,glow,sc){const o=spr(e,s);const w=s*1.4*(sc||1);if(glow){x.shadowColor=glow;x.shadowBlur=18}x.drawImage(o,cx-w/2,cy-w/2,w,w);x.shadowBlur=0}
+const laneX=l=>W/6+l*W/3;
+let st,run=false,paused=false,last=0,stars=[];
+for(let i=0;i<60;i++)stars.push({x:Math.random(),y:Math.random(),s:Math.random()*2+.5,v:Math.random()*.6+.4});
+function skin(){return SK.find(s=>s.id===S.skin())||SK[0]}
+function hero(){$('mHero').textContent=skin().icon+'🎟️'}
+function menu(){run=false;$('menu').classList.remove('hidden');$('hud').classList.add('hidden');$('combo').textContent='';$('mBest').textContent=S.fmt(S.best());$('mDist').textContent=S.fmt(S.stat('max_metros'))+' m';S.metaTabs($('meta'));hero();if(!idling)idle()}
+let idleT=0,idling=false;function idle(){if(run){idling=false;return}idling=true;idleT+=1/60;drawBG(ZONES[0],null,0,idleT*300);requestAnimationFrame(idle)}
+$('go').onclick=()=>{S.sfx('click');S.tutorial().then(start)};
+$('tutB').onclick=()=>S.tutorial(true);
+function start(){st={lane:1,vx:1,prevLane:1,lt:-9,obs:[],speed:330,score:0,cup:0,dist:0,spawn:.8,combo:0,ct:0,maxMult:1,casi:0,pow:{shield:0,mag:0,x2:0},zone:0,zt:0,shake:0,t:0,chests:0,gems:0,inv:0,trail:[],off:0,pows:0,dead:false};
+ $('menu').classList.add('hidden');$('hud').classList.remove('hidden');$('hB').textContent=S.fmt(S.best());run=true;paused=false;last=performance.now();S.sfx('whoosh');S.banner('ZONA 1 · CIUDAD','¡VAMOS!');requestAnimationFrame(loop)}
+function move(d){if(!run||st.dead)return;const n=Math.max(0,Math.min(2,st.lane+d));if(n===st.lane)return;st.prevLane=st.lane;st.lane=n;st.lt=st.t;S.sfx('tap',n*2);S.vib(8)}
+let sx=null,sy=0;addEventListener('pointerdown',e=>{if(!run||e.target.closest('#sbar,.modal'))return;sx=e.clientX;sy=e.clientY});
+addEventListener('pointerup',e=>{if(sx===null)return;const dx=e.clientX-sx;if(Math.abs(dx)>25)move(dx>0?1:-1);else move(e.clientX<innerWidth/2?-1:1);sx=null});
+addEventListener('keydown',e=>{if(e.key==='ArrowLeft'||e.key==='a')move(-1);if(e.key==='ArrowRight'||e.key==='d')move(1)});
+document.addEventListener('visibilitychange',()=>{if(document.hidden&&run)paused=true;else if(paused){paused=false;last=performance.now();requestAnimationFrame(loop)}});
+const mult=()=>Math.min(5,1+Math.floor(st.combo/6));
+function spawnRow(){const z=ZONES[st.zone];const two=st.dist>150&&Math.random()<Math.min(.55,.25+st.dist/4000);const lanes=[0,1,2].sort(()=>Math.random()-.5);const ob=two?lanes.slice(0,2):lanes.slice(0,1);
+ for(const l of ob)st.obs.push({l,y:-40,t:'ob',e:z.obs[Math.random()*z.obs.length|0]});
+ const free=lanes.filter(l=>!ob.includes(l));
+ for(const l of free){const r=Math.random();if(r<.05)st.obs.push({l,y:-40,t:'pw',e:['🛡️','🧲','✖️'][Math.random()*3|0]});else if(r<.075)st.obs.push({l,y:-40,t:'gem',e:'💎'});else if(r<.083&&st.chests<2&&st.dist>200)st.obs.push({l,y:-40,t:'chest',e:'🎁'});else if(r<.6){for(let k=0;k<3;k++)st.obs.push({l,y:-40-k*55,t:'cup',e:'🎟️'})}}}
+function lerpC(a,b,k){const p=s=>[1,3,5].map(i=>parseInt(s.substr(i,2),16));const A=p(a),B=p(b);return 'rgb('+A.map((v,i)=>Math.round(v+(B[i]-v)*k)).join(',')+')'}
+function drawBG(z,pz,k,off){const c0=pz?lerpC(pz.c[0],z.c[0],k):z.c[0],c1=pz?lerpC(pz.c[1],z.c[1],k):z.c[1];const g=x.createLinearGradient(0,0,0,H);g.addColorStop(0,c0);g.addColorStop(1,c1);x.fillStyle=g;x.fillRect(0,0,W,H);
+ x.fillStyle='rgba(255,255,255,.8)';for(const s of stars){const yy=(s.y*H+off*s.v*.3)%H;x.globalAlpha=.25+s.s/4;x.fillRect(s.x*W,yy,s.s,s.s*(1+(run?st.speed/200:1)));}x.globalAlpha=1;
+ x.fillStyle='rgba(0,0,0,.28)';x.fillRect(6,0,W-12,H);
+ x.shadowColor=z.ln;x.shadowBlur=14;x.fillStyle=z.ln;x.fillRect(6,0,3,H);x.fillRect(W-9,0,3,H);x.shadowBlur=0;
+ x.fillStyle='rgba(255,255,255,.22)';for(let l=1;l<3;l++){const lx=l*W/3-2;for(let y=(off%80)-80;y<H;y+=80)x.fillRect(lx,y,4,40)}}
+function loop(now){if(!run||paused)return;const dt=Math.min(.033,(now-last)/1000);last=now;st.t+=dt;
+ if(!st.dead){st.speed=Math.min(950,st.speed+dt*(9+st.zone*2));const dd=st.speed*dt;st.dist+=dd/10;st.off+=dd;st.score+=dd/10*(st.pow.x2>0?2:1);
+  st.spawn-=dt;if(st.spawn<=0){st.spawn=Math.max(.42,1.0-st.speed/1500);spawnRow()}
+  let nz=0;ZONES.forEach((z,i)=>{if(st.dist>=z.d)nz=i});if(nz!==st.zone){st.pz=ZONES[st.zone];st.zone=nz;st.zt=0;S.sfx('lvl');S.banner('ZONA '+(nz+1)+' · '+ZONES[nz].n.toUpperCase(),'¡NUEVA ZONA!');S.flash(ZONES[nz].ln,.35);st.score+=100;S.float(innerWidth/2,innerHeight*.55,'+100 ZONA','#29e6ff')}
+  for(const k in st.pow)if(st.pow[k]>0)st.pow[k]=Math.max(0,st.pow[k]-dt);
+  if(st.combo>0){st.ct-=dt;if(st.ct<=0){st.combo=0}}
+  st.inv=Math.max(0,st.inv-dt)}
+ st.zt+=dt;st.vx+=(st.lane-st.vx)*Math.min(1,dt*18);
+ const py=H*.78,px=laneX(st.vx);const cl=innerWidth/2-W/2;
+ for(const o of st.obs){o.y+=st.speed*dt*(st.dead?.15:1);
+  if(o.t==='cup'&&st.pow.mag>0&&o.y>py-380&&o.y<py+30){o.mag=1}
+  if(o.mag){const tx=px,ty=py;o.fx=(o.fx??laneX(o.l));o.fx+=(tx-o.fx)*Math.min(1,dt*10);o.y+=(ty-o.y)*Math.min(1,dt*6)}
+  const ox=o.mag?o.fx:laneX(o.l);
+  if(o.gone||st.dead)continue;
+  const hit=Math.abs(o.y-py)<34&&(o.mag?Math.abs(ox-px)<40:o.l===st.lane);
+  if(hit){if(o.t==='ob'){if(st.inv>0)continue;if(st.pow.shield>0){st.pow.shield=0;st.inv=1;o.gone=1;S.add('salvadas',1);S.sfx('hit');S.shake(c);S.flash('#29e6ff',.4);S.burst(cl+ox,o.y,{n:30,colors:['#29e6ff','#fff']});S.float(cl+ox,o.y-30,'¡ESCUDO!','#29e6ff');S.vib(60)}else die(o,cl+ox)}
+   else{o.gone=1;const sx=cl+ox,sy=o.y;
+    if(o.t==='cup'){st.combo++;st.ct=2.2;const m=mult();if(m>st.maxMult){st.maxMult=m;if(m>1){S.sfx('combo',m*3);S.banner('COMBO x'+m)}}const v=10*m*(st.pow.x2>0?2:1);st.score+=v;st.cup++;S.sfx('coin',st.combo%12);S.burst(sx,sy,{n:10,colors:['#FFD400','#fff','#ff9d00'],speed:4});S.float(sx,sy-20,'+'+v,m>1?'#ff3ea5':'#FFD400',20+m*3);S.vib(10);combo()}
+    else if(o.t==='pw'){const k=o.e==='🛡️'?'shield':o.e==='🧲'?'mag':'x2';st.pow[k]=k==='shield'?12:8;st.pows++;S.sfx('power');S.burst(sx,sy,{n:28,speed:7});S.float(sx,sy-30,{shield:'¡ESCUDO!',mag:'¡IMÁN!',x2:'¡DOBLE PUNTOS!'}[k],'#3dff8a',26);S.flash('#3dff8a',.2);S.vib(30)}
+    else if(o.t==='gem'){st.gems++;S.addGems(1);S.sfx('gem');S.burst(sx,sy,{n:24,colors:['#29e6ff','#fff','#b388ff']});S.float(sx,sy-20,'+1 💎','#29e6ff',26);S.vib(20)}
+    else if(o.t==='chest'){st.chests++;S.add('cofres',1);S.sfx('chest');S.burst(sx,sy,{n:40,speed:9});S.float(sx,sy-30,'¡COFRE! 🎁','#FFD400',28);S.flash('#FFD400',.3);S.vib([30,30,30])}}}
+  if(!o.passed&&o.y>py+30){o.passed=1;if(o.t==='ob'&&o.l===st.prevLane&&o.l!==st.lane&&st.t-st.lt<.35&&!o.gone){st.casi++;const v=25*mult();st.score+=v;S.sfx('near');S.float(cl+laneX(o.l),py-40,'¡Por poco! +'+v,'#ff3ea5',22);S.vib(15)}
+   if(o.t==='cup'&&!o.gone&&!o.mag){if(st.combo>=6)S.float(cl+laneX(o.l),py,'combo perdido','#aaa',16);st.combo=0;combo()}}}
+ st.obs=st.obs.filter(o=>o.y<H+60&&!(o.gone&&o.t!=='ob')&&!(o.gone&&o.t==='ob'));
+ // dibujar
+ const z=ZONES[st.zone];let sxo=0,syo=0;if(st.shake>0){st.shake-=dt;sxo=(Math.random()-.5)*16;syo=(Math.random()-.5)*16}
+ x.save();x.translate(sxo,syo);drawBG(z,st.pz,Math.min(1,st.zt/1.5),st.off);
+ for(const o of st.obs){const ox=o.mag?o.fx:laneX(o.l);if(o.t==='cup')drawE(o.e,34,ox,o.y,'#FFD400',1+Math.sin(st.t*10+o.y*.05)*.08);else if(o.t==='ob')drawE(o.e,46,ox,o.y,'rgba(0,0,0,.6)');else drawE(o.e,40,ox,o.y,o.t==='gem'?'#29e6ff':'#3dff8a',1+Math.sin(st.t*8)*.12)}
+ const sk=skin();if(!st.dead){st.trail.push({x:px,y:py+18,l:1});}st.trail.forEach(t=>{t.l-=dt*2.5;t.y+=st.speed*dt*.6});st.trail=st.trail.filter(t=>t.l>0);
+ x.shadowColor=sk.tr;x.shadowBlur=12;for(const t of st.trail){x.globalAlpha=t.l*.5;x.fillStyle=sk.tr;x.beginPath();x.arc(t.x,t.y,10*t.l,0,7);x.fill()}x.globalAlpha=1;x.shadowBlur=0;
+ if(!st.dead||Math.floor(st.t*12)%2){const bob=Math.sin(st.t*14)*4;if(st.inv>0&&Math.floor(st.t*20)%2){}else drawE(sk.icon,50,px,py+bob,sk.tr);
+  if(st.pow.shield>0){x.strokeStyle='rgba(41,230,255,'+(.5+Math.sin(st.t*8)*.3)+')';x.lineWidth=4;x.shadowColor='#29e6ff';x.shadowBlur=20;x.beginPath();x.arc(px,py,42,0,7);x.stroke();x.shadowBlur=0}
+  if(st.pow.mag>0){x.strokeStyle='rgba(255,62,165,.35)';x.lineWidth=2;const r=50+(st.t*80%60);x.beginPath();x.arc(px,py,r,0,7);x.stroke()}}
+ x.restore();
+ $('hSc').textContent=S.fmt(st.score);$('hCu').textContent=st.cup;$('hM').textContent=S.fmt(st.dist);$('hZ').textContent='Zona '+(st.zone+1)+' · '+z.n;
+ const pw=$('pw');let h='';[['shield','🛡️',12],['mag','🧲',8],['x2','✖️2',8]].forEach(([k,e,mx])=>{if(st.pow[k]>0)h+='<div class="pwi">'+e+'<i style="width:'+(st.pow[k]/mx*100)+'%"></i></div>'});pw.innerHTML=h;
+ requestAnimationFrame(loop)}
+function combo(){const m=mult(),e=$('combo');if(st.combo>=3){e.innerHTML='COMBO '+st.combo+(m>1?' · <b>x'+m+'</b>':'');e.style.transform='scale(1.25)';setTimeout(()=>e.style.transform='',90)}else e.textContent=''}
+function die(o,sx){st.dead=true;st.shake=.45;S.sfx('hit');S.vib([80,40,120]);S.flash('#ff2a55',.55);S.burst(sx,o.y,{n:50,speed:10,colors:['#ff2a55','#FFD400','#fff']});S.shake(document.body);
+ const sc=Math.floor(st.score),d=Math.floor(st.dist);
+ S.add('partidas',1);S.add('cupones',st.cup);S.add('metros',d);S.add('poderes',st.pows);S.add('casi',st.casi);S.max('metros',d);S.max('combo',st.maxMult);S.max('zona',st.zone+1);S.max('score',sc);
+ setTimeout(()=>{run=false;$('combo').textContent='';S.result({score:sc,lines:[['📏 Distancia',S.fmt(d)+' m'],['🎟️ Cupones',st.cup],['🔥 Combo máximo','x'+st.maxMult],['😱 ¡Por poco!',st.casi],['🗺️ Zona',(st.zone+1)+' · '+ZONES[st.zone].n],['💎 Gemas',st.gems]],xp:10+sc/25,chest:st.chests?'¡Encontraste un cofre en la pista!':null,again:start,menu:menu,extra:ofertaCard(ofertaRandom(),'🔥 Oferta del momento')})},900)}
+menu();
+})();
+</script><script>document.getElementById("discl").innerHTML=NOTA_PRECIOS+' · <a href="'+LINKTREE+'" target="_blank" rel="noopener" style="color:inherit">Mi Linktree</a>'</script></body></html>

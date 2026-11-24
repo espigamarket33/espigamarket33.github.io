@@ -1,0 +1,8 @@
+/* Espiga Market 33 · ajustes para Telegram Mini App (se suma a ../motor.css) */
+html{-webkit-tap-highlight-color:transparent}
+body{padding-top:max(env(safe-area-inset-top,0px),var(--tgx-safe-top,0px));padding-bottom:max(env(safe-area-inset-bottom,0px),var(--tgx-safe-bottom,0px));padding-left:var(--tgx-safe-left,0px);padding-right:var(--tgx-safe-right,0px);overscroll-behavior:none;-webkit-user-select:none;user-select:none}
+/* dentro de Telegram se usa el botón Atrás nativo */
+html.in-tg #sbar .only-site{display:none}
+.tgx-share{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;box-sizing:border-box;margin:4px 0 10px;padding:12px 16px;border-radius:16px;border:1px solid rgba(255,212,0,.6);background:linear-gradient(180deg,#ffd400,#ff9d00);color:#221;font:inherit;font-weight:1000;font-size:16px;cursor:pointer;box-shadow:0 4px 0 rgba(0,0,0,.35);transition:transform .08s}
+.tgx-share:active{transform:translateY(3px);box-shadow:0 1px 0 rgba(0,0,0,.35)}
+.tgx-hola{font-weight:1000;font-size:20px;color:var(--y,#FFD400);margin-top:6px}
