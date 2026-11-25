@@ -1,0 +1,14 @@
+{
+ "activo": true,
+ "premiosConfirmados": false,
+ "moneda": "TON",
+ "premios": [
+  3,
+  2,
+  1
+ ],
+ "premiosPorJuego": true,
+ "contacto": "espigamarket33_admin",
+ "carteraPremios": "UQCjyCtuNv_4WD_oKNcpC-3shkA95PMTS8WLKI8B4I0FV0Zu",
+ "nota": "Los premios solo se muestran al público cuando premiosConfirmados=true. Edita los montos en 'premios' (1.º, 2.º, 3.º)."
+}

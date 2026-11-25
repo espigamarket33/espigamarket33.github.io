@@ -1,0 +1,90 @@
+<!doctype html><html lang="es" data-tg-page="ranking"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover"><meta name="theme-color" content="#14062b"><title>Ranking semanal · Espiga Market 33</title><link rel="icon" type="image/png" href="../img/logo.png"><link rel="stylesheet" href="../motor.css"><link rel="stylesheet" href="tg.css"><script src="https://telegram.org/js/telegram-web-app.js"></script><script src="tg.js"></script><script src="ranking.js"></script>
+<style>
+.rk-tabs{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:14px 0}
+.rk-tab{background:rgba(255,255,255,.08);border:1px solid var(--line);color:#fff;border-radius:14px;padding:10px 4px;font-weight:900;font-size:13px;cursor:pointer;line-height:1.2}
+.rk-tab b{display:block;font-size:24px}
+.rk-tab.on{background:linear-gradient(180deg,#ffe766,var(--y,#FFD400) 50%,#ffb800);color:#2a1600}
+.rk-cd{font-size:15px;font-weight:900;color:var(--y,#FFD400)}
+.rk-me{background:rgba(255,212,0,.12);border:1px solid rgba(255,212,0,.4)}
+table.lb td small{opacity:.55;font-weight:700;margin-left:6px;font-size:11px}
+.rk-in{width:100%;box-sizing:border-box;padding:12px;border-radius:12px;border:1px solid var(--line);background:rgba(0,0,0,.25);color:#fff;font-size:14px;font-family:monospace}
+.rk-ok{color:#4dff9a;font-weight:900}.rk-err{color:#ff6b8a;font-weight:900}
+.card{text-align:left}
+</style></head>
+<body><div class="wrap" style="text-align:center;padding-top:18px">
+<div class="big-emoji" style="font-size:54px">🏆</div>
+<div class="title" style="font-size:28px">Ranking semanal</div>
+<p class="muted" id="rkSem">Cargando…</p>
+<p class="rk-cd" id="rkCd"></p>
+<div class="card" id="rkPremios" style="margin-top:10px"></div>
+<div class="rk-tabs" id="rkTabs"></div>
+<div class="card" id="rkYo" style="display:none"></div>
+<div class="card" id="rkTabla"><p class="muted">Cargando ranking…</p></div>
+<p class="muted" id="rkAct" style="margin-top:8px;font-size:12px"></p>
+<div class="card" id="rkTon" style="margin-top:12px"></div>
+<a class="btn big" id="rkJugar" href="esquiva.html" style="margin-top:14px;width:100%;box-sizing:border-box">🎮 Jugar</a>
+<a class="btn sec" href="../reglas-ranking.html" style="margin-top:12px;width:100%;box-sizing:border-box">📜 Reglas del ranking</a>
+<a class="btn sec" href="index.html" style="margin-top:12px;width:100%;box-sizing:border-box">← Menú de juegos</a>
+</div>
+<script>(function(){
+var RK=window.RANKING,J=Object.keys(RK.juegos),sel=(new URLSearchParams(location.search).get('j'));if(J.indexOf(sel)<0)sel='esquiva';
+var datos=null,cfg={},yo='';
+function $(i){return document.getElementById(i)}
+function esc(s){return String(s==null?'':s).replace(/[&<>"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]})}
+function num(n){return Number(n||0).toLocaleString('es-MX')}
+function fecha(iso){return new Date(iso).toLocaleString('es-MX',{timeZone:RK.zona,weekday:'long',day:'numeric',month:'long',hour:'2-digit',minute:'2-digit'})}
+function tabs(){$('rkTabs').innerHTML=J.map(function(j){var x=RK.juegos[j];return '<button class="rk-tab'+(j===sel?' on':'')+'" data-j="'+j+'"><b>'+x.e+'</b>'+esc(x.n.split(' · ')[0])+'</button>'}).join('');
+  $('rkJugar').href=sel+'.html';$('rkJugar').textContent='🎮 Jugar '+RK.juegos[sel].n.split(' · ')[0]}
+$('rkTabs').onclick=function(e){var b=e.target.closest('.rk-tab');if(!b)return;sel=b.dataset.j;history.replaceState(null,'','?j='+sel);if(window.TG&&TG.haptic)TG.haptic('select');tabs();tabla()};
+function premios(){
+  var p=cfg.premios||[],m=cfg.moneda||'TON';
+  if(cfg.premiosConfirmados&&p.length){
+    $('rkPremios').innerHTML='<b>🎁 Premios de esta semana'+(cfg.premiosPorJuego?' (en cada juego)':'')+'</b><div style="margin-top:6px">'+p.map(function(v,i){return ['🥇','🥈','🥉'][i]+' '+(i+1)+'.º lugar: <b>'+esc(v)+' '+esc(m)+'</b>'}).join('<br>')+'</div><p class="muted" style="margin-top:6px">Gratis, sin compra. Ver reglas abajo.</p>';
+  }else $('rkPremios').innerHTML='<b>🎁 Premios</b><p class="muted" style="margin-top:4px">Muy pronto anunciaremos los premios en el canal <a href="https://t.me/espigamarket33" style="color:inherit">@espigamarket33</a>. ¡Tus puntajes de esta semana ya cuentan!</p>';
+}
+function cuenta(){if(!datos)return;var f=new Date(datos.cierre).getTime()-Date.now();
+  if(datos.cerrada||f<=0){$('rkCd').textContent='La semana ya cerró · espera la nueva tabla';return}
+  var d=Math.floor(f/864e5),h=Math.floor(f%864e5/36e5),mi=Math.floor(f%36e5/6e4);
+  $('rkCd').textContent='⏳ Cierra en '+(d?d+' d ':'')+h+' h '+mi+' min'}
+function tabla(){
+  if(!datos){return}
+  var l=(datos.juegos&&datos.juegos[sel])||[],mia=null;
+  l.forEach(function(r){if(yo&&r.c===yo)mia=r});
+  var local=RK.miMejor(sel);
+  if(RK.enTelegram){
+    $('rkYo').style.display='';$('rkYo').className='card rk-me';
+    $('rkYo').innerHTML='<b>Tú'+(RK.usuario&&RK.usuario.first_name?' ('+esc(RK.usuario.first_name)+')':'')+'</b> · código <b>'+esc(yo||'…')+'</b><br>'+
+      (mia?'Vas en el lugar <b>#'+mia.p+'</b> con <b>'+num(mia.s)+'</b> puntos':(local?'Tu mejor puntaje enviado: <b>'+num(local)+'</b>. Aparecerá en la tabla en unos minutos.':'Aún no tienes puntaje esta semana en este juego. ¡Juega!'));
+  }else{$('rkYo').style.display='';$('rkYo').className='card';$('rkYo').innerHTML='ℹ️ Para entrar al ranking abre el juego desde Telegram: <a href="https://t.me/EspigaMarket33Bot/jugar" style="color:inherit">t.me/EspigaMarket33Bot/jugar</a>'}
+  if(!l.length){$('rkTabla').innerHTML='<p class="muted">Aún no hay puntajes esta semana. ¡Sé el primero!</p>';return}
+  $('rkTabla').innerHTML='<b>'+RK.juegos[sel].e+' '+esc(RK.juegos[sel].n)+'</b> <span class="muted">· '+num(datos.jugadores&&datos.jugadores[sel])+' jugadores</span><table class="lb" style="margin-top:6px">'+l.map(function(r){
+    return '<tr class="'+(r.c===yo?'me':'')+'"><td>'+(r.p<=3?['🥇','🥈','🥉'][r.p-1]:r.p+'.')+' '+esc(r.n)+'<small>#'+esc(r.c)+'</small></td><td>'+num(r.s)+'</td></tr>'}).join('')+'</table>';
+}
+function ton(){
+  var c=esc(cfg.contacto||'espigamarket33_admin');
+  if(!RK.enTelegram){$('rkTon').innerHTML='<b>💎 ¿Ganaste?</b><p class="muted" style="margin-top:4px">Escríbenos a <a href="https://t.me/'+c+'" style="color:inherit">@'+c+'</a> con tu código de jugador.</p>';return}
+  var t=RK.miTon();
+  $('rkTon').innerHTML='<b>💎 Tu cartera TON para premios (opcional)</b><p class="muted" style="margin:4px 0 8px">Si quedas entre los primeros lugares te mandamos el premio a esta dirección. Es tu dirección pública (empieza con UQ o EQ). <b>Nunca</b> pongas tus 24 palabras secretas.</p>'+
+    '<input class="rk-in" id="rkTonIn" maxlength="70" placeholder="UQ…" value="'+esc(t)+'" autocomplete="off" spellcheck="false">'+
+    '<button class="btn sec" id="rkTonB" type="button" style="margin-top:10px;width:100%">Guardar dirección</button><div id="rkTonMsg" style="margin-top:6px"></div>'+
+    '<p class="muted" style="margin-top:8px">¿Sin cartera o con dudas? Escribe a <a href="https://t.me/'+c+'" style="color:inherit">@'+c+'</a> con tu código <b>'+esc(yo)+'</b>.</p>';
+  $('rkTonB').onclick=function(){var b=this,msg=$('rkTonMsg');b.disabled=true;msg.className='';msg.textContent='Guardando…';
+    RK.enviarTon($('rkTonIn').value).then(function(){msg.className='rk-ok';msg.textContent='✅ Guardada. Se registra en unos minutos.';if(window.TG&&TG.haptic)TG.haptic('success')})
+    .catch(function(e){msg.className='rk-err';msg.textContent='⚠️ '+(e&&e.message&&/Dirección/.test(e.message)?e.message:'No se pudo guardar. Revisa tu internet e intenta otra vez.');if(window.TG&&TG.haptic)TG.haptic('error')})
+    .then(function(){b.disabled=false})};
+}
+function pintarTodo(){premios();tabs();tabla();ton();cuenta()}
+tabs();
+Promise.all([RK.codigo().catch(function(){return ''}),RK.cargarConfig()]).then(function(r){yo=r[0];cfg=r[1]||{};premios();ton()});
+function cargar(){
+  RK.cargar('actual').then(function(d){
+    datos=d;$('rkSem').textContent='Semana del '+fecha(d.inicio).replace(/,? \d\d:\d\d.*$/,'')+' al domingo a las 23:59 (hora de Ciudad de México)';
+    var min=Math.max(0,Math.round((Date.now()-new Date(d.actualizado))/6e4));
+    $('rkAct').textContent='Actualizado hace '+(min<1?'menos de 1':min)+' min · la tabla se actualiza cada 10 a 20 minutos';
+    pintarTodo();
+  }).catch(function(){$('rkSem').textContent='Semana actual · cierra el domingo 23:59 (hora de Ciudad de México)';$('rkTabla').innerHTML='<p class="muted">El ranking se está preparando. Vuelve en unos minutos.</p>';premios();ton()});
+}
+Promise.resolve(RK.codigo()).then(function(c){yo=c||yo;cargar()},cargar);
+setInterval(cuenta,30000);
+})()</script>
+</body></html>

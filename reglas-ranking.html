@@ -1,0 +1,59 @@
+<!doctype html><html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="theme-color" content="#14062b"><title>Reglas del ranking semanal · Espiga Market 33</title><link rel="icon" type="image/png" href="img/logo.png"><link rel="stylesheet" href="motor.css"><script src="https://telegram.org/js/telegram-web-app.js"></script>
+<style>.wrap{max-width:720px}.card{text-align:left;line-height:1.5}.card h2{font-size:19px;margin-bottom:6px}.card li{margin:4px 0 4px 18px}a{color:var(--y,#FFD400)}</style></head>
+<body><div class="wrap" style="padding-top:18px">
+<div style="text-align:center"><img src="img/logo.png" alt="Espiga Market 33" width="72" height="72" style="border-radius:16px"><div class="title" style="font-size:26px">Reglas del ranking semanal</div><p class="muted">Mini juegos de Espiga Market 33 en Telegram</p></div>
+
+<div class="card"><h2>🎮 1. Es gratis</h2><ul>
+<li>Jugar y participar es <b>100% gratis</b>. <b>No necesitas comprar nada</b> ni pagar para ganar.</li>
+<li>Los anuncios dentro del juego son <b>opcionales</b>. Dan la misma ayuda a todos (una vida extra o una pregunta extra) y no son necesarios para ganar.</li>
+<li>Las monedas 🪙 y gemas 💎 del juego no tienen valor en dinero.</li></ul></div>
+
+<div class="card"><h2>🙋 2. Quién participa</h2><ul>
+<li>Toda persona que juegue desde el bot de Telegram <a href="https://t.me/EspigaMarket33Bot/jugar">@EspigaMarket33Bot</a>. Tu puntaje entra al ranking automáticamente.</li>
+<li>Para recibir un premio debes tener <b>18 años o más</b>.</li>
+<li>Una cuenta de Telegram por persona.</li></ul></div>
+
+<div class="card"><h2>🏆 3. Cómo se gana</h2><ul>
+<li>Cada juego tiene su propio ranking: <b>Esquiva y Junta</b>, <b>Toca y Gana (Reto 15 segundos)</b> y <b>¿Cuánto Cuesta?</b></li>
+<li>Cuenta tu <b>mejor puntaje de la semana</b> en cada juego.</li>
+<li>Si hay empate, gana quien hizo ese puntaje primero.</li>
+<li>La tabla se actualiza cada 10 a 20 minutos.</li></ul></div>
+
+<div class="card"><h2>🗓️ 4. La semana</h2><ul>
+<li>Empieza el <b>lunes a las 00:00</b> y cierra el <b>domingo a las 23:59</b>, hora de la Ciudad de México.</li>
+<li>Al cerrar, el ranking vuelve a empezar desde cero.</li></ul></div>
+
+<div class="card"><h2>🎁 5. Premios</h2><div id="premios"><p>Los premios de cada semana se anuncian en el canal <a href="https://t.me/espigamarket33">@espigamarket33</a>.</p></div></div>
+
+<div class="card"><h2>📣 6. Cómo te contactamos y cómo te pagamos</h2><ul>
+<li>El lunes publicamos a los ganadores en el canal <a href="https://t.me/espigamarket33">@espigamarket33</a>, con su nombre y su <b>código de jugador</b> (lo ves en la página del ranking).</li>
+<li>Si guardaste tu <b>dirección TON</b> en la página del ranking, te mandamos el premio ahí.</li>
+<li>Si no la guardaste, escríbenos a <a href="https://t.me/espigamarket33_admin">@espigamarket33_admin</a> desde la <b>misma cuenta de Telegram</b> con la que jugaste, con tu código de jugador y tu dirección TON. Tienes <b>7 días</b> para reclamar.</li>
+<li>El premio se paga en TON, a mano, desde la cartera oficial de Espiga Market 33, normalmente en las siguientes 72 horas.</li>
+<li>⚠️ <b>Nunca</b> te vamos a pedir tus 24 palabras secretas, contraseñas ni dinero. Si alguien te las pide, es una estafa.</li></ul></div>
+
+<div class="card"><h2>🛡️ 7. Juego limpio</h2><ul>
+<li>Revisamos los puntajes. Si un puntaje es imposible o vemos trampas (varias cuentas, bots, programas o cambios al juego), ese puntaje no cuenta y la cuenta queda fuera.</li>
+<li>Podemos revisar un puntaje antes de pagar.</li></ul></div>
+
+<div class="card"><h2>🔒 8. Tus datos</h2><ul>
+<li>Para el ranking usamos tu ID de Telegram, tu nombre, tu @usuario y, si la das, tu dirección TON. Solo sirven para el ranking y para pagar premios.</li>
+<li>En la tabla pública solo aparece tu nombre, la inicial de tu apellido y tu código de jugador.</li></ul></div>
+
+<div class="card"><h2>📝 9. Cambios</h2><ul>
+<li>Espiga Market 33 puede cambiar estas reglas, los premios o terminar el ranking. Siempre avisamos antes en el canal.</li>
+<li>Esta promoción no es patrocinada ni administrada por Telegram.</li></ul></div>
+
+<p style="text-align:center;margin:18px 0"><a class="btn big" href="https://t.me/EspigaMarket33Bot/jugar">🎮 Jugar ahora</a></p>
+<p class="muted" style="text-align:center;font-size:12px">¿Dudas? Escribe a <a href="https://t.me/espigamarket33_admin">@espigamarket33_admin</a></p>
+</div>
+<script>(function(){
+var W=window.Telegram&&Telegram.WebApp;if(W&&W.initData){try{W.ready();W.expand()}catch(e){}
+ document.addEventListener('click',function(e){var a=e.target.closest&&e.target.closest('a[href]');if(!a)return;if(/^https:\/\/t\.me\//.test(a.href)){e.preventDefault();W.openTelegramLink(a.href)}})}
+fetch('tg/ranking-config.json?t='+Math.floor(Date.now()/60000)).then(function(r){return r.json()}).then(function(c){
+ if(!c||!c.premiosConfirmados||!c.premios||!c.premios.length)return;
+ var m=c.moneda||'TON';
+ document.getElementById('premios').innerHTML='<ul>'+c.premios.map(function(v,i){return '<li>'+['🥇','🥈','🥉','🏅','🏅'][i]+' <b>'+(i+1)+'.º lugar: '+v+' '+m+'</b></li>'}).join('')+'</ul><p>'+(c.premiosPorJuego?'Estos premios son <b>para cada juego</b>.':'Estos premios son para el ranking de la semana.')+' Los montos pueden cambiar de una semana a otra; siempre se anuncian en el canal antes de que empiece la semana.</p>';
+}).catch(function(){});
+})()</script>
+</body></html>

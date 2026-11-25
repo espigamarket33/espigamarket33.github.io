@@ -129,7 +129,7 @@ function continuarTrasAnuncio(){st.continued=true;st.dead=false;st.inv=2.5;st.sh
 function finPartida(){
  const sc=Math.floor(st.score),d=Math.floor(st.dist);
  S.add('partidas',1);S.add('cupones',st.cup);S.add('metros',d);S.add('poderes',st.pows);S.add('casi',st.casi);S.max('metros',d);S.max('combo',st.maxMult);S.max('zona',st.zone+1);S.max('score',sc);
- S.result({score:sc,lines:[['📏 Distancia',S.fmt(d)+' m'],['🎟️ Cupones',st.cup],['🔥 Combo máximo','x'+st.maxMult],['😱 ¡Por poco!',st.casi],['🗺️ Zona',(st.zone+1)+' · '+ZONES[st.zone].n],['💎 Gemas',st.gems]],xp:10+sc/25,chest:st.chests?'¡Encontraste un cofre en la pista!':null,again:start,menu:menu,extra:ofertaCard(ofertaRandom(),'🔥 Oferta del momento')})}
+ S.result({score:sc,rk:{t:Math.round(st.t*10)/10,cup:st.cup,casi:st.casi,zone:st.zone},lines:[['📏 Distancia',S.fmt(d)+' m'],['🎟️ Cupones',st.cup],['🔥 Combo máximo','x'+st.maxMult],['😱 ¡Por poco!',st.casi],['🗺️ Zona',(st.zone+1)+' · '+ZONES[st.zone].n],['💎 Gemas',st.gems]],xp:10+sc/25,chest:st.chests?'¡Encontraste un cofre en la pista!':null,again:start,menu:menu,extra:ofertaCard(ofertaRandom(),'🔥 Oferta del momento')})}
 menu();
 })();
 </script><script>document.getElementById("discl").innerHTML=NOTA_PRECIOS+' · <a href="'+LINKTREE+'" target="_blank" rel="noopener" style="color:inherit">Mi Linktree</a>'</script></body></html>
